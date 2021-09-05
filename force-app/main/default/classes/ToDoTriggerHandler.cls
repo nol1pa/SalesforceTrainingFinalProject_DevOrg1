@@ -5,7 +5,7 @@ public with sharing class ToDoTriggerHandler {
     }
     private void setTriggerContext(){
         if(Trigger.isExecuting && Trigger.isAfter && Trigger.isInsert){
-            context = 'afer_insert';
+            context = 'after_insert';
         }
         if(Trigger.isExecuting && Trigger.isAfter && Trigger.isUpdate){
             context = 'after_update';
@@ -15,16 +15,24 @@ public with sharing class ToDoTriggerHandler {
         }
     }
     public void handleAction(){
+        if(!System.isFuture()){
         switch on context {
             when 'after_insert' {
-                ToDoTriggerHandlerHelper().handleAfterInsert_future(Trigger.newMap.keySet);
+                ToDoTriggerHandlerHelper.handleAfterInsert_future(
+                    Trigger.newMap.keySet()
+                );
             }
             when 'after_update' {
-                ToDoTriggerHandlerHelper().handleAfterUpdate_future(Trigger.newMap.keySet);
+                ToDoTriggerHandlerHelper.handleAfterUpdate_future(
+                    Trigger.newMap.keySet()
+                );
             }
-            when 'after_delete'{
-                ToDoTriggerHandlerHelper().handleBeforeDelete_future(Trigger.oldMap.keySet);
+            when 'before_delete'{
+                ToDoTriggerHandlerHelper.handleBeforeDelete_future(
+                    Trigger.oldMap.keySet()
+                );
             }
         }
+    }
     }
 }

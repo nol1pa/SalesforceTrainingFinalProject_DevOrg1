@@ -1,3 +1,3 @@
-trigger ToDoTrigger on SOBJECT (after insert, after update, after delete) {
+trigger ToDoTrigger on ToDo__c (after insert, after update, before delete) {
     new ToDoTriggerHandler().handleAction();
 }

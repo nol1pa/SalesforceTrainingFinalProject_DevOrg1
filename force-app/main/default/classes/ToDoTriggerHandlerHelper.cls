@@ -8,11 +8,6 @@ public with sharing class ToDoTriggerHandlerHelper {
            FROM ToDo__c
            WHERE Id IN : ids
         ]);
-        for(ToDo__c todo : todosMap.values()){
-            if(!String.isBlank(todo.Connected_Org_Record_Id__c)){
-                return;
-            }
-        }
         HttpRequest req = new HttpRequest();
         req.setEndpoint('callout:devorg_2_credential/services/apexrest/todoapi/');
         req.setMethod('POST');
@@ -46,15 +41,11 @@ public with sharing class ToDoTriggerHandlerHelper {
    } 
    @future(callout = true)
    public static void handleBeforeDelete_future(Set<Id> ids){
-        List<ToDo__c> todos = [
-            SELECT Connected_Org_Record_Id__c 
-            FROM ToDo__c WHERE Id IN : ids
-        ];
         HttpRequest req = new HttpRequest();
         req.setEndpoint('callout:devorg_2_credential/services/apexrest/todoapi/');
         req.setMethod('DELETE');
         req.setHeader('Content-type', 'application/json;charset=UTF-8');
-        req.setBody(JSON.serialize(todos));
+        req.setBody(JSON.serialize(ids));
         Http http = new Http();
         HttpResponse resp = http.send(req);
    } 
