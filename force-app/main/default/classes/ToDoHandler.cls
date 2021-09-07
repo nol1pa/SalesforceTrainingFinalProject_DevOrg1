@@ -13,14 +13,17 @@ public with sharing class ToDoHandler {
             ORDER BY Name
         ];
     }
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled
+    public static ToDo__c updateTodoWithSubTodos(
+        ToDo__c todo, List<SubToDo__c> subtodos
+    ){
+        update todo;
+        update subtodos;
+        return todo;
+    }
+    @AuraEnabled
     public static ToDo__c updateTodo(ToDo__c todo){
         update todo;
         return todo;
-    }
-    @AuraEnabled(cacheable=true)
-    public static SubToDo__c updateSubTodo(SubToDo__c subtodo){
-        update subtodo;
-        return subtodo;
     }
 }

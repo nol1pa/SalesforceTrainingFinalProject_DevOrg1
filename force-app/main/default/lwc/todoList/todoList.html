@@ -5,7 +5,7 @@
             </lightning-button>
             <template if:true={todos}>
                 <template for:each={todos} for:item="todo">
-                    <c-todo-list-item key={todo.Id} todo={todo}>
+                    <c-todo-list-item onrefreshreq={refresh} key={todo.Id} todo={todo}>
                     </c-todo-list-item>
                 </template>
             </template>

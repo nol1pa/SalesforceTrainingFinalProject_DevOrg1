@@ -1,29 +1,32 @@
 <template>
-    <ul class="slds-box slds-box_xx-small">
-        <lightning-layout>
-            <lightning-layout-item>
-                <li>{todo.Name}</li>
-            </lightning-layout-item>
-            <lightning-layout-item alignment-bump="left">
-                <input type="checkbox" checked={todo.Is_Done__c}
-                onchange={handleTodoDoneChange}/>
-            </lightning-layout-item>
-        </lightning-layout>
-        <template if:true={todo.SubToDos__r}>
-            <li>
-                <ul class="slds-is-nested slds-list_dotted">
-                    <template for:each={todo.SubToDos__r} for:item="subtodo">
-                        <lightning-layout key={subtodo.Id}>
-                            <lightning-layout-item>
-                                <li>{subtodo.Name}</li>
-                            </lightning-layout-item>
-                            <lightning-layout-item alignment-bump="left">
-                                <input type="checkbox" data-item={subtodo.Id} checked={subtodo.Is_Done__c} value={subtodo.Id} onchange={handleSubTodoDoneChange}/>
-                            </lightning-layout-item>
-                        </lightning-layout>
-                    </template>
-                </ul>
-            </li>
-        </template>
-    </ul>
+    <div>
+        <ul class="slds-box slds-box_xx-small">
+            <lightning-layout>
+                <lightning-layout-item>
+                    <li>{todo.Name}</li>
+                </lightning-layout-item>
+                <lightning-layout-item alignment-bump="left">
+                    <input type="checkbox" checked={todo.Is_Done__c}
+                    onchange={handleTodoDoneChange}/>
+                </lightning-layout-item>
+            </lightning-layout>
+            <template if:true={todo.SubToDos__r}>
+                <li>
+                    <ul class="slds-is-nested slds-list_dotted">
+                        <template for:each={todo.SubToDos__r} for:item="subtodo">
+                            <lightning-layout key={subtodo.Id}>
+                                <lightning-layout-item>
+                                    <li>{subtodo.Name}</li>
+                                </lightning-layout-item>
+                                <lightning-layout-item alignment-bump="left">
+                                    <input type="checkbox" data-item={subtodo.Id} checked={subtodo.Is_Done__c} value={subtodo.Id} onchange={handleSubTodoDoneChange}/>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                    </ul>
+                </li>
+            </template>
+        </ul>
+    </div>
+    
 </template>
