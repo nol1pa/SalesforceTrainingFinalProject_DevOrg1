@@ -1,0 +1,14 @@
+<template>
+    <lightning-card title="ToDo List">
+        <div class="slds-var-m-around_small">
+            <lightning-button label="Refresh" variant="brand" onclick={refresh}>
+            </lightning-button>
+            <template if:true={todos}>
+                <template for:each={todos} for:item="todo">
+                    <c-todo-list-item key={todo.Id} todo={todo}>
+                    </c-todo-list-item>
+                </template>
+            </template>
+        </div>
+    </lightning-card>
+</template>

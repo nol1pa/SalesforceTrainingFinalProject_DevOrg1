@@ -16,23 +16,23 @@ public with sharing class ToDoTriggerHandler {
     }
     public void handleAction(){
         if(!System.isFuture()){
-        switch on context {
-            when 'after_insert' {
-                ToDoTriggerHandlerHelper.handleAfterInsert_future(
-                    Trigger.newMap.keySet()
-                );
-            }
-            when 'after_update' {
-                ToDoTriggerHandlerHelper.handleAfterUpdate_future(
-                    Trigger.newMap.keySet()
-                );
-            }
-            when 'before_delete'{
-                ToDoTriggerHandlerHelper.handleBeforeDelete_future(
-                    Trigger.oldMap.keySet()
-                );
+            switch on context {
+                when 'after_insert' {
+                    ToDoTriggerHandlerHelper.handleAfterInsert_future(
+                        Trigger.newMap.keySet()
+                    );
+                }
+                when 'after_update' {
+                    ToDoTriggerHandlerHelper.handleAfterUpdate_future(
+                        Trigger.newMap.keySet()
+                    );
+                }
+                when 'before_delete'{
+                    ToDoTriggerHandlerHelper.handleBeforeDelete_future(
+                        Trigger.oldMap.keySet()
+                    );
+                }
             }
         }
-    }
     }
 }
