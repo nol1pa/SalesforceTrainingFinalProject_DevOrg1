@@ -1,22 +1,24 @@
 public class CaseTriggerHelper {
-
-    //add SubToDo creating from ToDoHelper
-
     public static void addToDoFromEmail(List<Case> newCases){
-        List<ToDo__c> newToDos = new List<ToDo__c>();
-        
+        Map<Id, ToDo__c> cIdTodoMap = new Map<Id, ToDo__c>();
         for(Case newCase : newCases){
             if(newCase.Origin == 'Email') {
-                ToDo__c todo = new ToDo__c();
-                todo.Name = newCase.Subject;
-                todo.Is_Done__c = false;
-                todo.OwnerId = newCase.OwnerId;
-                todo.Description_For_SubToDo__c = newCase.Description;
-                newToDos.add(todo);
+                cIdTodoMap.put(newCase.Id, 
+                new ToDo__c(Name = newCase.Subject, OwnerId = newCase.OwnerId));
             }
         }
-        if(!newToDos.isEmpty()){
-            insert newToDos;
+        insert cIdTodoMap.values();
+        SubToDo__c[] subtodos = new List<SubToDo__c>();
+        for(Case newCase : newCases){
+            if(newCase.Origin == 'Email'){
+                for(String str : newCase.Description.split(',')){
+                    subtodos.add(new SubToDo__c(
+                        Name = str, 
+                        ToDo__c = cIdTodoMap.get(newCase.Id).Id
+                    ));
+                }
+            }
         }
+        insert subtodos;
     }
 }

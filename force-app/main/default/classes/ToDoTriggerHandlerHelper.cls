@@ -48,25 +48,4 @@ public with sharing class ToDoTriggerHandlerHelper {
         Http http = new Http();
         HttpResponse resp = http.send(req);
     }
-
-    //export to CaseTriggerHelper 
-    public static void addSubToDoFromEmail(List<ToDo__c> todos) {
-        List<SubToDo__c> newSubToDos = new List<SubToDo__c>();
-        for (ToDo__c todo : todos) {
-            if (todo.Description_For_SubToDo__c != null) {
-                String tempStr = todo.Description_For_SubToDo__c;
-                List<String> tmpStrs = tempStr.split(',');
-                for (String str : tmpStrs) {
-                    SubToDo__c subtodo = new SubToDo__c();
-                    subtodo.Name = str;
-                    subtodo.ToDo__c = todo.Id;
-                    subtodo.Is_Done__c = false;
-                    newSubToDos.add(subtodo);
-                }
-            }
-        }
-        if(!newSubToDos.isEmpty()){
-            insert newSubToDos;
-        }
-    }
 }
