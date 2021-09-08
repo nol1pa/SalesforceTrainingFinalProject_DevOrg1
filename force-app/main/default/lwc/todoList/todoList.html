@@ -1,14 +1,20 @@
 <template>
     <lightning-card title="ToDo List">
         <div class="slds-var-m-around_small">
-            <lightning-button label="Refresh" variant="brand" onclick={refresh}>
-            </lightning-button>
-            <template if:true={todos}>
-                <template for:each={todos} for:item="todo">
-                    <c-todo-list-item onrefreshreq={refresh} key={todo.Id} todo={todo}>
-                    </c-todo-list-item>
+            <lightning-layout class="slds-var-m-bottom_small">
+                <lightning-layout-item alignment-bump="left">
+                    <lightning-button-icon onclick={refresh} icon-name="utility:refresh" alternative-text="Refresh" title="Refresh">
+                    </lightning-button-icon>
+                </lightning-layout-item>
+            </lightning-layout>
+            <div class="slds-scrollable" style="height:20rem">
+                <template if:true={todos}>
+                    <template for:each={todos} for:item="todo">
+                        <c-todo-list-item isdisabled={isdisabled} ondisablebtns={disableBtns} onenablebtns={enableBtns} key={todo.Id} todo={todo}>
+                        </c-todo-list-item>
+                    </template>
                 </template>
-            </template>
+            </div>
         </div>
     </lightning-card>
 </template>

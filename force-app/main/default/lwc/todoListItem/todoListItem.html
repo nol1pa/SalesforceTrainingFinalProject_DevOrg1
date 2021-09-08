@@ -7,7 +7,7 @@
                 </lightning-layout-item>
                 <lightning-layout-item alignment-bump="left">
                     <input type="checkbox" checked={todo.Is_Done__c}
-                    onchange={handleTodoDoneChange}/>
+                    onchange={handleTodoDoneChange} disabled={isdisabled}/>
                 </lightning-layout-item>
             </lightning-layout>
             <template if:true={todo.SubToDos__r}>
@@ -19,7 +19,8 @@
                                     <li>{subtodo.Name}</li>
                                 </lightning-layout-item>
                                 <lightning-layout-item alignment-bump="left">
-                                    <input type="checkbox" data-item={subtodo.Id} checked={subtodo.Is_Done__c} value={subtodo.Id} onchange={handleSubTodoDoneChange}/>
+                                    <input type="checkbox" data-item={subtodo.Id} checked={subtodo.Is_Done__c} value={subtodo.Id} onchange={handleSubTodoDoneChange} 
+                                    disabled={isdisabled}/>
                                 </lightning-layout-item>
                             </lightning-layout>
                         </template>

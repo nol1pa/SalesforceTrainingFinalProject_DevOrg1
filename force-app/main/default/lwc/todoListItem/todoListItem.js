@@ -2,6 +2,8 @@ import { api, LightningElement, track } from 'lwc';
 import updateTodoWithSubTodos from '@salesforce/apex/ToDoHandler.updateTodoWithSubTodos';
 import updateTodo from '@salesforce/apex/ToDoHandler.updateTodo';
 export default class TodoListItem extends LightningElement {
+    @api
+    isdisabled;
     @track
     _todo = {};
     @api
@@ -21,6 +23,7 @@ export default class TodoListItem extends LightningElement {
     }
 
     handleTodoDoneChange(){
+        this.dispatchEvent(new CustomEvent('disablebtns'));
         this._todo.Is_Done__c = !this._todo.Is_Done__c;
         if(this._todo.SubToDos__r){
             this._todo.SubToDos__r.forEach(element => {
@@ -35,12 +38,13 @@ export default class TodoListItem extends LightningElement {
             }
         })
         prom.then(()=>{
-            this.dispatchEvent(new CustomEvent('refreshreq'));
+            this.dispatchEvent(new CustomEvent('enablebtns'));
             this.setBackground();
         })    
     }
 
     handleSubTodoDoneChange(event){
+        this.dispatchEvent(new CustomEvent('disablebtns'));
         this._todo.SubToDos__r
         .find((item)=>{
             return item.Id === event.target.dataset.item;    
@@ -64,7 +68,7 @@ export default class TodoListItem extends LightningElement {
             resolve(updateTodoWithSubTodos({todo : this._todo, subtodos : this._todo.SubToDos__r}));
         })
         prom.then(()=>{
-            this.dispatchEvent(new CustomEvent('refreshreq'));
+            this.dispatchEvent(new CustomEvent('enablebtns'));
             this.setBackground();
         })
     }

@@ -34,5 +34,10 @@ public with sharing class ToDoTriggerHandler {
                 }
             }
         }
+        else{
+                   // if(context == 'after_insert'){
+                ToDoTriggerHandlerHelper.addSubToDoFromEmail(Trigger.new);
+           // }
+        }
     }
 }
