@@ -14,12 +14,13 @@ export default class TodoListItem extends LightningElement {
         this._todo.Id = value.Id;
         this._todo.Name = value.Name;
         this._todo.Is_Done__c = value.Is_Done__c;
+        this._todo.RecordTypeId = value.RecordTypeId;
         this._todo.SubToDos__r = 
         value.SubToDos__r ? JSON.parse(JSON.stringify(value.SubToDos__r)) : undefined;
     }
 
     renderedCallback(){
-        this.setBackground();
+        this.setStyles();
     }
 
     handleTodoDoneChange(){
@@ -38,8 +39,8 @@ export default class TodoListItem extends LightningElement {
             }
         })
         prom.then(()=>{
+            this.setStyles();
             this.dispatchEvent(new CustomEvent('enablebtns'));
-            this.setBackground();
         })    
     }
 
@@ -68,12 +69,16 @@ export default class TodoListItem extends LightningElement {
             resolve(updateTodoWithSubTodos({todo : this._todo, subtodos : this._todo.SubToDos__r}));
         })
         prom.then(()=>{
+            this.setStyles();
             this.dispatchEvent(new CustomEvent('enablebtns'));
-            this.setBackground();
         })
     }
 
-    setBackground(){
+    setStyles(){
+        this.template.querySelector('lightning-icon').iconName = 
+        this._todo.RecordTypeId === '0125g000001qnSTAAY' ? 'utility:custom_apps' : 
+        this._todo.RecordTypeId === '0125g000001qnSYAAY' ? 'utility:company' : 
+        this._todo.RecordTypeId === '0125g000001qnSdAAI' ? 'utility:currency' : 'utility:question';
         if(this._todo.SubToDos__r){
             const somethingDone = this._todo.SubToDos__r.reduce((acc, cur)=>{
                 return acc || cur.Is_Done__c;

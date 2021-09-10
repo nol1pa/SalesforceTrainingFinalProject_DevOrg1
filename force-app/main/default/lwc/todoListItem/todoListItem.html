@@ -1,8 +1,12 @@
 <template>
-    <div>
-        <ul class="slds-box slds-box_xx-small">
+    <div class="slds-box slds-box_xx-small">
+        <ul>
             <lightning-layout>
                 <lightning-layout-item>
+                    <lightning-icon alternative-text="dev" title="dev" size="x-small">
+                    </lightning-icon>
+                </lightning-layout-item>
+                <lightning-layout-item class="slds-var-m-left_small">
                     <li>{todo.Name}</li>
                 </lightning-layout-item>
                 <lightning-layout-item alignment-bump="left">
@@ -29,5 +33,4 @@
             </template>
         </ul>
     </div>
-    
 </template>
