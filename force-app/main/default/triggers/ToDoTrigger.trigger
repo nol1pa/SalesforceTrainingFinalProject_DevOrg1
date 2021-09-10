@@ -1,3 +1,8 @@
-trigger ToDoTrigger on ToDo__c (after insert, after update, before delete) {
+trigger ToDoTrigger on ToDo__c (
+    after insert, 
+    after update, 
+    before update, 
+    before delete
+) {
     new ToDoTriggerHandler().handleAction();
 }

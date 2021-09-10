@@ -1,6 +1,13 @@
 public with sharing class ToDoTriggerHandlerHelper {
-    @future(callout = true)
-    public static void handleAfterInsert_future(Set<Id> ids) {
+        public static void handleBeforeUpdate(){
+                for(ToDo__c todo : (List<ToDo__c>)Trigger.new){
+                        todo.Connected_Org_Record_Id__c = 
+                        ((Map<Id, ToDo__C>)Trigger.oldMap).get(todo.Id).Connected_Org_Record_Id__c;
+                        System.debug(todo.Connected_Org_Record_Id__c);
+                }
+        }
+        @future(callout = true)
+        public static void handleAfterInsert_future(Set<Id> ids) {
         Map<Id, ToDo__c> todosMap = new Map<Id, ToDo__c>([
                 SELECT Name, Description__c, Is_Done__c, Priority__c,
                         Image_URL__c, Connected_Org_Record_Id__c
