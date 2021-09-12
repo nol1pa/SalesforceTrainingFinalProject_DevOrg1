@@ -22,7 +22,7 @@
                 </template>
             </div>
         </div>
-
+        <!-- MODALS -->
         <template if:true={creationModalOpened}>
             <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
             <div class="slds-modal__container">
@@ -62,10 +62,10 @@
                 </h2>
                 </header>
                 <div class="slds-modal__content slds-var-p-around_medium" id="modal-content-id-2">
-                <lightning-radio-group name="recordTypes" label="Record Type"
+                <lightning-radio-group name="recordTypes" label="Record Type" value={recordTypeId}
                 options={recordTypeOptions} onchange={changeRecordTypeId} type="radio">
                 </lightning-radio-group>
-                <lightning-layout>
+                <lightning-layout class="slds-var-m-top_small">
                     <lightning-layout-item>
                         <lightning-button variant="destructive" onclick={closeRecordTypeModal} label="Cancel"></lightning-button>
                     </lightning-layout-item>    
@@ -79,5 +79,6 @@
             </section>
             <div class="slds-backdrop slds-backdrop_open"></div>
         </template>
+        <!-- MODALS -->
     </lightning-card>
 </template>
