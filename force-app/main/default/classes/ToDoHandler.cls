@@ -5,12 +5,12 @@ public with sharing class ToDoHandler {
             SELECT Name, Description__c, Priority__c, Connected_Org_Record_Id__c,
             Image_URL__c, Is_Done__c, CreatedDate, RecordTypeId, (
                 SELECT Name, Description__c, Priority__c, Connected_Org_Record_Id__c,
-                Image_URL__c, Is_Done__c, CreatedDate
+                Image_URL__c, Is_Done__c, CreatedDate, ToDO__c
                 FROM SubToDos__r
-                ORDER BY CreatedDate
+                ORDER BY CreatedDate 
             )
             FROM ToDo__c
-            ORDER BY CreatedDate
+            ORDER BY CreatedDate 
         ];
     }
     @AuraEnabled

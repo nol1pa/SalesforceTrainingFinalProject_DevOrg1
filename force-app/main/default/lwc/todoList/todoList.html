@@ -1,7 +1,13 @@
 <template>
     <lightning-card title="ToDo List">
         <div class="slds-var-m-around_small">
-            <lightning-layout class="slds-var-m-bottom_small">
+            <lightning-progress-bar value={progress} variant="circular">
+            </lightning-progress-bar>
+            <lightning-layout class="slds-var-m-bottom_small slds-var-m-top_small">
+                <lightning-layout-item>
+                    <lightning-button variant="brand" label="Add ToDo">
+                    </lightning-button>
+                </lightning-layout-item>
                 <lightning-layout-item alignment-bump="left">
                     <lightning-button-icon onclick={refresh} icon-name="utility:refresh" alternative-text="Refresh" title="Refresh">
                     </lightning-button-icon>

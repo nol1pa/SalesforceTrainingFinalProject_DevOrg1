@@ -5,12 +5,14 @@ import {refreshApex} from '@salesforce/apex'
 export default class TodoList extends LightningElement {
     todos;
     res;
+    progress = 0;
     isdisabled = false;
     @wire(getAllTodosWithSubTodos)
     getTodos(result){
         this.res = result;
         if(result.data){
             this.todos = result.data;
+            this.countProgress();
         }
     }
     renderedCallback(){
@@ -24,5 +26,21 @@ export default class TodoList extends LightningElement {
     }
     disableBtns(){
         this.isdisabled = true;
+    }
+    countProgress(){
+        let todosCount = 0;
+        let todosDone = 0;
+        this.todos.forEach(element => {
+            if(element.SubToDos__r){
+                element.SubToDos__r.forEach(element=>{
+                    todosCount++;
+                    todosDone += element.Is_Done__c ? 1 : 0;
+                });
+            } else {
+                todosCount++;
+                todosDone += element.Is_Done__c ? 1 : 0; 
+            }
+        });
+        this.progress = (todosDone/todosCount) * 100;
     }
 }
