@@ -67,7 +67,7 @@ export default class TodoList extends LightningElement {
         this.creationModalOpened = false;
         this.refresh();
     }
-    loog(){
-        console.log(this.recordTypeId);
+    changeRecordTypeId(event){
+        this.recordTypeId = event.target.value;
     }
 }
