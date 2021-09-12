@@ -7,6 +7,16 @@ export default class TodoList extends LightningElement {
     res;
     progress = 0;
     isdisabled = false;
+    creationModalOpened = false;
+    recordTypeModalOpened = false;
+    recordTypeId = '0125g000001qnSTAAY';
+    get recordTypeOptions(){
+        return [
+            {label:'Development', value:'0125g000001qnSTAAY'},
+            {label:'Administration', value:'0125g000001qnSYAAY'},
+            {label:'Management', value:'0125g000001qnSdAAI'}
+        ];
+    }
     @wire(getAllTodosWithSubTodos)
     getTodos(result){
         this.res = result;
@@ -42,5 +52,22 @@ export default class TodoList extends LightningElement {
             }
         });
         this.progress = (todosDone/todosCount) * 100;
+    }
+    closeRecordTypeModal(){
+        this.recordTypeModalOpened = false;
+    }
+    openRecordTypeModal(){
+        this.recordTypeModalOpened = true;
+    }
+    openCreationModal(){
+        this.recordTypeModalOpened = false;
+        this.creationModalOpened = true;
+    }
+    closeCreationModal(){
+        this.creationModalOpened = false;
+        this.refresh();
+    }
+    loog(){
+        console.log(this.recordTypeId);
     }
 }
