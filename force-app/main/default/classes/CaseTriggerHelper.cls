@@ -1,4 +1,28 @@
 public class CaseTriggerHelper {
+
+    public class SubToDoCreator_Queueable implements Queueable{
+        public Map<Id, ToDo__c> somemap = new Map<Id, ToDo__c>();
+        public List<Case> cases = new List<Case>();
+        public SubToDoCreator_Queueable(Map<Id, ToDo__c> somemap, List<Case> cases){
+            this.somemap = somemap;
+            this.cases = cases;
+        }
+        public void execute(QueueableContext context){
+            SubToDo__c[] subtodos = new List<SubToDo__c>();
+            for(Case newCase : cases){
+                if(newCase.Origin == 'Email'){
+                    for(String str : newCase.Description.split(',')){
+                        subtodos.add(new SubToDo__c(
+                            Name = str, 
+                            ToDo__c = somemap.get(newCase.Id).Id
+                        ));
+                    }
+                }
+            }
+            insert subtodos;
+        }
+    }
+
     public static void addToDoFromEmail(List<Case> newCases){
         Map<Id, ToDo__c> cIdTodoMap = new Map<Id, ToDo__c>();
         for(Case newCase : newCases){
@@ -32,17 +56,20 @@ public class CaseTriggerHelper {
             }
         }
         insert cIdTodoMap.values();
-        SubToDo__c[] subtodos = new List<SubToDo__c>();
-        for(Case newCase : newCases){
-            if(newCase.Origin == 'Email'){
-                for(String str : newCase.Description.split(',')){
-                    subtodos.add(new SubToDo__c(
-                        Name = str, 
-                        ToDo__c = cIdTodoMap.get(newCase.Id).Id
-                    ));
-                }
-            }
-        }
-        insert subtodos;
+        SubToDoCreator_Queueable job = 
+        new SubToDoCreator_Queueable(cIdTodoMap, newCases);
+        System.enqueueJob(job);
+        // SubToDo__c[] subtodos = new List<SubToDo__c>();
+        // for(Case newCase : newCases){
+        //     if(newCase.Origin == 'Email'){
+        //         for(String str : newCase.Description.split(',')){
+        //             subtodos.add(new SubToDo__c(
+        //                 Name = str, 
+        //                 ToDo__c = cIdTodoMap.get(newCase.Id).Id
+        //             ));
+        //         }
+        //     }
+        // }
+        // insert subtodos;
     }
 }
