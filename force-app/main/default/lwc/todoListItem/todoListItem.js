@@ -1,6 +1,7 @@
 import { api, LightningElement, track } from 'lwc';
 import updateTodoWithSubTodos from '@salesforce/apex/ToDoHandler.updateTodoWithSubTodos';
 import updateTodo from '@salesforce/apex/ToDoHandler.updateTodo';
+import { deleteRecord } from 'lightning/uiRecordApi';
 export default class TodoListItem extends LightningElement {
     @api
     isdisabled;
@@ -90,5 +91,17 @@ export default class TodoListItem extends LightningElement {
             this.template.querySelector('div').style.backgroundColor =
             this._todo.Is_Done__c ? "lightgreen" : "lightpink";
         }
+    }
+    deleteTodo(){
+        this.dispatchEvent(new CustomEvent("disablebtns"));
+        deleteRecord(this._todo.Id).then(()=>{
+            this.dispatchEvent(new CustomEvent("enablebtns"));
+        });
+    }
+    deleteSubtodo(event){
+        this.dispatchEvent(new CustomEvent("disablebtns"));
+        deleteRecord(event.target.dataset.item).then(()=>{
+            this.dispatchEvent(new CustomEvent("enablebtns"));
+        });
     }
 }

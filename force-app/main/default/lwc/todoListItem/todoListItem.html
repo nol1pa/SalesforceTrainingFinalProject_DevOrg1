@@ -13,11 +13,11 @@
                     <b>{todo.Name}</b>
                 </lightning-layout-item>
                 <lightning-layout-item alignment-bump="left">
-                    <lightning-button-icon icon-name="utility:edit" alternative-text="Edit" size="small">
+                    <lightning-button-icon icon-name="utility:edit" alternative-text="Edit" size="small" onclick={editTodo} disabled={isdisabled}>
                     </lightning-button-icon>
                 </lightning-layout-item>
                 <lightning-layout-item>
-                    <lightning-button-icon icon-name="utility:delete" alternative-text="Delete" size="small">
+                    <lightning-button-icon icon-name="utility:delete" alternative-text="Delete" size="small" onclick={deleteTodo} disabled={isdisabled}>
                     </lightning-button-icon>
                 </lightning-layout-item>
             </lightning-layout>
@@ -32,12 +32,12 @@
                                 <lightning-layout-item>
                                     {subtodo.Name}
                                 </lightning-layout-item>
-                                <lightning-layout-item alignment-bump="left">
-                                    <lightning-button-icon icon-name="utility:edit" alternative-text="Edit" size="small">
+                                <lightning-layout-item data-item={subtodo.Id} alignment-bump="left">
+                                    <lightning-button-icon icon-name="utility:edit" alternative-text="Edit" size="small" onclick={editSubtodo} disabled={isdisabled}>
                                     </lightning-button-icon>
                                 </lightning-layout-item>
                                 <lightning-layout-item>
-                                    <lightning-button-icon icon-name="utility:delete" alternative-text="Delete" size="small">
+                                    <lightning-button-icon data-item={subtodo.Id} icon-name="utility:delete" alternative-text="Delete" size="small" onclick={deleteSubtodo} disabled={isdisabled}>
                                     </lightning-button-icon>
                                 </lightning-layout-item>
                             </lightning-layout>
@@ -46,7 +46,7 @@
             </template>
             <lightning-layout class="slds-var-m-top_xx-small">
                 <lightning-layout-item alignment-bump="left">
-                    <lightning-button-icon icon-name="utility:add" size="small" alternative-text="Add SubToDo">
+                    <lightning-button-icon icon-name="utility:add" size="small" alternative-text="Add SubToDo" disabled={isdisabled}>
                     </lightning-button-icon>
                 </lightning-layout-item>
             </lightning-layout>
