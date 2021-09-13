@@ -28,7 +28,6 @@ public class CaseTriggerHelper {
                     cIdTodoMap.put(newCase.Id, 
                 	new ToDo__c(Name = newCase.Subject, OwnerId = newCase.OwnerId, recordTypeId = '0125g000001qnSdAAI'));
                 }
-                
             }
         }
         insert cIdTodoMap.values();
