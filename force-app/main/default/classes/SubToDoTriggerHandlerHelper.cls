@@ -25,7 +25,6 @@ public with sharing class SubToDoTriggerHandlerHelper {
                 FROM SubToDo__c
                 WHERE Id IN :ids
         ]);
-        System.debug(subtodosMap.values());
         HttpRequest req = new HttpRequest();
         req.setEndpoint('callout:devorg_2_credential/services/apexrest/subtodoapi/');
         req.setMethod('POST');
