@@ -19,12 +19,14 @@ public with sharing class SubToDoTriggerHandlerHelper {
 
     @future(callout=true)
     public static void handleAfterInsert_future(Set<Id> ids){
+        System.debug(System.isQueueable());
         Map<Id, SubToDo__c> subtodosMap = new Map<Id, SubToDo__c>([
                 SELECT Name, Description__c, Is_Done__c, Priority__c,
                         Image_URL__c, Connected_Org_Record_Id__c, ToDo__c
                 FROM SubToDo__c
                 WHERE Id IN :ids
         ]);
+        System.debug(subtodosMap.values());
         HttpRequest req = new HttpRequest();
         req.setEndpoint('callout:devorg_2_credential/services/apexrest/subtodoapi/');
         req.setMethod('POST');
