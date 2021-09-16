@@ -2,17 +2,20 @@
 <template>
     <lightning-card class="slds-m-around_medium" title="Search Todos">
         <lightning-input label="Search Todo" type="search" onchange={handleChange}></lightning-input>
-        <div style="margin-left:3%;">
-            <lightning-radio-group name="radioGroupForPriorityStatus"
-                                   label="Choose priority"
-                                   onchange={handleChangePriority}
-                                   options={optionsForPriority}
-                                   value={priorityKey}
-                                   type="button"></lightning-radio-group>
-            <div>
-                Selected Value: <b>{priorityKey}</b>
-            </div>
-        </div>
+        <lightning-input onchange={handleChangeShow} type="toggle" label="Show additional filters" name="input1"></lightning-input>
+        <template if:true={show}>
+                <div style="margin-left:3%;">
+                    <lightning-radio-group name="radioGroupForPriorityStatus"
+                                           label="Choose priority"
+                                           onchange={handleChangePriority}
+                                           options={optionsForPriority}
+                                           value={priorityKey}
+                                           type="button"></lightning-radio-group>
+                    <div>
+                        Selected Value: <b>{priorityKey}</b>
+                    </div>
+                </div>
+        </template>
         <div style="margin-left:3%;">
         <lightning-radio-group name="radioGroupForDoneStatus"
                                label="Choose Done status"
