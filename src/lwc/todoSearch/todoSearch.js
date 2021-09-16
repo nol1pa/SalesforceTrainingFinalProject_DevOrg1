@@ -15,7 +15,7 @@ export default class TodoSearch extends LightningElement {
 
 
 
-    @wire(findTodo, {priorityKey: '$priorityKey', isDone: '$isDone', nameKey: '$nameKey'})
+    @wire(findTodo, {priorityKey: '$priorityKey', nameKey: '$nameKey'})
     todos;
 
     handleChange(event) {
@@ -34,7 +34,7 @@ export default class TodoSearch extends LightningElement {
 
     // Getting Account Type Picklist values using wire service
     @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: Priority_FIELD})
-    typePicklistValues({error, data}) {
+    typePicklistValuesDone({error, data}) {
         if(data) {
             let optionsValues = [];
             for(let i = 0; i < data.values.length; i++) {
@@ -43,6 +43,10 @@ export default class TodoSearch extends LightningElement {
                     value: data.values[i].value
                 })
             }
+            optionsValues.push({
+                label: 'All' ,
+                value: ''
+            })
             this.optionsForPriority = optionsValues;
             window.console.log('optionsValues ===> '+JSON.stringify(optionsValues));
         }
@@ -79,7 +83,7 @@ export default class TodoSearch extends LightningElement {
         }
     }
 
-    handleChangeisDone(event) {
+    handleChangeDone(event) {
         window.clearTimeout(this.delayTimeout);
         const isDone = event.target.value;
         this.delayTimeout = setTimeout(() => {
