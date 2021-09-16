@@ -65,7 +65,6 @@ public class CaseTriggerHelper {
 
     public static void addToDoFromEmail(List<Case> newCases){
         // System.enqueueJob(new ToDoCreator_Queueable(newCases));
-        // /*remove subtodos creation from email(????)*/
         Map<Id, ToDo__c> cIdTodoMap = new Map<Id, ToDo__c>();
         for(Case newCase : newCases){
             if(newCase.Origin == 'Email') {

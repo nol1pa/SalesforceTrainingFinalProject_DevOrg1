@@ -16,7 +16,7 @@
             <div class="slds-scrollable" style="height:20rem">
                 <template if:true={todos}>
                     <template for:each={todos} for:item="todo">
-                        <c-todo-list-item isdisabled={isdisabled} ondisablebtns={disableBtns} onenablebtns={enableBtns} key={todo.Id} todo={todo}>
+                        <c-todo-list-item isdisabled={isdisabled} ondisablebtns={disableBtns} onenablebtns={enableBtns} onrefreshreq={refresh} key={todo.Id} todo={todo}>
                         </c-todo-list-item>
                     </template>
                 </template>
