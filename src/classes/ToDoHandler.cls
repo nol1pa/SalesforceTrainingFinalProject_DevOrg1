@@ -14,9 +14,10 @@ public with sharing class ToDoHandler {
         ];
     }
     @AuraEnabled(Cacheable=true)
-    public static List<ToDo__c> findTodosWithSubTodos(String priorityKey, Boolean isDone) {
-        String priorityKey = '%' + priorityKey + '%';
-        Boolean isDone = isDone;
+    public static List<ToDo__c> findTodosWithSubTodos(String priorityKey, Boolean isDone, String nameKey) {
+        String keyForPriority = '%' + priorityKey + '%';
+        Boolean keyForisDone = isDone;
+        String keyForName = '%' + nameKey + '%';
         return [
                 SELECT Name, Description__c, Priority__c, Connected_Org_Record_Id__c,
                         Image_URL__c, Is_Done__c, CreatedDate, RecordTypeId, (
@@ -26,7 +27,7 @@ public with sharing class ToDoHandler {
                         ORDER BY CreatedDate
                 )
                 FROM ToDo__c
-                WHERE Priority__c LIKE :priorityKey OR Is_Done__c = :isDone
+                WHERE Priority__c LIKE :keyForPriority AND Is_Done__c = :keyForisDone AND Name LIKE :keyForName
                 ORDER BY CreatedDate
         ];
     }

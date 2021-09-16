@@ -1,7 +1,43 @@
-<!--
- - Created by vladimirzhukovets on 16.09.21.
- -->
-
 <!-- Todo Search -->
 <template>
+    <lightning-card class="slds-m-around_medium" title="Search Todos">
+        <lightning-input label="Search Todo" type="search" onchange={handleChange}></lightning-input>
+        <div style="margin-left:3%;">
+            <lightning-radio-group name="radioGroupForPriorityStatus"
+                                   label="Choose priority"
+                                   onchange={handleChangePriority}
+                                   options={optionsForPriority}
+                                   value={priorityKey}
+                                   type="button"></lightning-radio-group>
+            <div>
+                Selected Value: <b>{priorityKey}</b>
+            </div>
+        </div>
+        <div style="margin-left:3%;">
+        <lightning-radio-group name="radioGroupForDoneStatus"
+                               label="Choose Done status"
+                               onchange={handleChangeisDone}
+                               options={isDoneOptions}
+                               value={isDone}
+                               type="button"></lightning-radio-group>
+            <div>
+                Selected Value: <b>{isDone}</b>
+            </div>
+        </div>
+        </br>
+        <template if:true={todos}>
+            <template for:each={todos.data} for:item=todo>
+                <p key={todo.Id}>
+                    <lightning-formatted-text key={todo.Id} value={todo.Name}></lightning-formatted-text>
+                </p>
+                <p key={todo.Id}>
+                    <lightning-formatted-text key={todo.Id} value={todo.Is_Done__c}></lightning-formatted-text>
+                </p>
+                <p key={todo.Id}>
+                    <lightning-formatted-text key={todo.Id} value={todo.Priority__c}></lightning-formatted-text>
+                </p>
+                <p key={todo.Id}>----------------</p>
+            </template>
+        </template>
+    </lightning-card>
 </template>
