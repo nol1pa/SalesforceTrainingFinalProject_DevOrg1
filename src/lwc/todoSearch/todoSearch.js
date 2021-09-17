@@ -4,20 +4,28 @@ import {getPicklistValues} from 'lightning/uiObjectInfoApi';
 import {getObjectInfo} from 'lightning/uiObjectInfoApi';
 import TODO_OBJECT from '@salesforce/schema/ToDo__c';
 import Priority_FIELD from '@salesforce/schema/ToDo__c.Priority__c';
-import isDone_FIELD from '@salesforce/schema/ToDo__c.Is_Done__c';
 
 export default class TodoSearch extends LightningElement {
+
+
     nameKey = '';
-    today = new Date();
-    @track isDone = '';
-    @track isDoneOptions = [];
     @track priorityKey = '';
     @track optionsForPriority = [];
-    @track dateValue = '2020-09-07T00:00:00Z'
     @track startDateKey = '2000-01-01T00:00:00Z';
-    @track endDateKey = '2021-09-17T23:59:59Z';
+    @track endDateKey = '';
+    /*@track
+    query = 'SELECT Name, Description__c, Priority__c, Connected_Org_Record_Id__c, ' +
+        + 'Image_URL__c, Is_Done__c, CreatedDate, RecordTypeId, (SELECT Name, Description__c, ' +
+        + 'Priority__c, Connected_Org_Record_Id__c, Image_URL__c, Is_Done__c, CreatedDate, ToDo__c FROM SubToDos__r ' +
+        + 'ORDER BY CreatedDate) FROM ToDo__c WHERE ' + 'Name Like %' + this.nameKey + '%'
+        + ' ORDER BY CreatedDate';*/
 
-    @wire(findTodo, {priorityKey: '$priorityKey', nameKey: '$nameKey', startDateKey: '$startDateKey', endDateKey: '$endDateKey'})
+    @wire(findTodo, {
+        priorityKey: '$priorityKey',
+        nameKey: '$nameKey',
+        startDateKey: '$startDateKey',
+        endDateKey: '$endDateKey',
+    })
     todos;
 
     handleChange(event) {
@@ -64,8 +72,8 @@ export default class TodoSearch extends LightningElement {
     @wire(getObjectInfo, {objectApiName: TODO_OBJECT})
     objectInfo;
 
-    @wire(getPicklistValues, {recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: Priority_FIELD})
-    typePicklistValuesDone({error, data}) {
+    @wire(getPicklistValues, {fieldApiName: Priority_FIELD, recordTypeId: '$objectInfo.data.defaultRecordTypeId'})
+    typePicklistValuesPriority({error, data}) {
         if (data) {
             let optionsValues = [];
             for (let i = 0; i < data.values.length; i++) {
@@ -91,8 +99,8 @@ export default class TodoSearch extends LightningElement {
         this.delayTimeout = setTimeout(() => {
             this.priorityKey = priorityKey;
         }, 300);
-        //this.priorityKey = event.detail.value;
     }
+
 
 
     //rework this for isDone checkbox
