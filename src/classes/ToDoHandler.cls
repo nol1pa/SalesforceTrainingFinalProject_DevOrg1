@@ -14,9 +14,10 @@ public with sharing class ToDoHandler {
         ];
     }
     @AuraEnabled(Cacheable=true)
-    public static List<ToDo__c> findTodosWithSubTodos(String priorityKey, String nameKey) {
+    public static List<ToDo__c> findTodosWithSubTodos(String priorityKey, String nameKey, Datetime startDateKey, Datetime endDateKey) {
         String keyForPriority = priorityKey;
-        Boolean keyForisDone = true;
+        Datetime keyForStartDate = startDateKey;
+        Datetime keyForEndDate = endDateKey;
         String keyForName = '%' + nameKey + '%';
         return [
                 SELECT Name, Description__c, Priority__c, Connected_Org_Record_Id__c,
@@ -27,7 +28,10 @@ public with sharing class ToDoHandler {
                         ORDER BY CreatedDate
                 )
                 FROM ToDo__c
-                WHERE Priority__c = :keyForPriority AND Name LIKE :keyForName
+                WHERE Priority__c = :keyForPriority AND
+                      Name LIKE :keyForName AND
+                      CreatedDate >= :keyForStartDate AND
+                      CreatedDate <= :keyForEndDate
                 ORDER BY CreatedDate
         ];
     }

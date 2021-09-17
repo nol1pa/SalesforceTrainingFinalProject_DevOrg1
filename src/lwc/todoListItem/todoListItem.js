@@ -3,6 +3,10 @@ import updateTodoWithSubTodos from '@salesforce/apex/ToDoHandler.updateTodoWithS
 import updateTodo from '@salesforce/apex/ToDoHandler.updateTodo';
 import { deleteRecord } from 'lightning/uiRecordApi';
 export default class TodoListItem extends LightningElement {
+    todoEditingModalOpened = false;
+    subtodoEditingModalOpened = false;
+    subtodoCreationModalOpened = false;
+    curSubtodoId = '';
     @api
     isdisabled;
     @track
@@ -103,5 +107,28 @@ export default class TodoListItem extends LightningElement {
         deleteRecord(event.target.dataset.item).then(()=>{
             this.dispatchEvent(new CustomEvent("enablebtns"));
         });
+        
+    }
+    editTodo(){
+        this.todoEditingModalOpened = true;
+    }
+    closeTodoEditingModal(){
+        this.dispatchEvent(new CustomEvent('refreshreq'));
+        this.todoEditingModalOpened = false;
+    }
+    editSubtodo(event){
+        this.curSubtodoId = event.target.dataset.item;
+        this.subtodoEditingModalOpened = true;
+    }
+    closeSubtodoEditingModal(){
+        this.dispatchEvent(new CustomEvent('refreshreq'));
+        this.subtodoEditingModalOpened = false;
+    }
+    createSubtodo(){
+        this.subtodoCreationModalOpened = true;
+    }
+    closeSubtodoCreationModal(){
+        this.dispatchEvent(new CustomEvent('refreshreq'));
+        this.subtodoCreationModalOpened = false;
     }
 }

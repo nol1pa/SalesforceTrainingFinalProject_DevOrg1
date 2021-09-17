@@ -1,10 +1,12 @@
 <!-- Todo Search -->
 <template>
     <lightning-card class="slds-m-around_medium" title="Search Todos">
+        <div style="margin-left:3%; margin-right:3%;">
         <lightning-input label="Search Todo" type="search" onchange={handleChange}></lightning-input>
         <lightning-input onchange={handleChangeShow} type="toggle" label="Show additional filters" name="input1"></lightning-input>
-        <template if:true={show}>
-                <div style="margin-left:3%;">
+        </div>
+            <template if:true={show}>
+                <div style="margin-left:3%; margin-right:3%;">
                     <lightning-radio-group name="radioGroupForPriorityStatus"
                                            label="Choose priority"
                                            onchange={handleChangePriority}
@@ -14,21 +16,31 @@
                     <div>
                         Selected Value: <b>{priorityKey}</b>
                     </div>
+                    </br>
+                    <div style="margin-left:3%;margin-right:3%;">
+                        <h2>Choose Creation Date:</h2>
+                        <lightning-input type="date"
+                                         name="input1"
+                                         label="Enter a date"
+                                         onchange={handleChangeDate}
+                                         value={endDateKey}></lightning-input>
+                        </br>
+                        <lightning-button label="Clear date" title="Non-primary action" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+                        Selected Value: <b>{endDateKey}</b>
+                    </div>
                 </div>
         </template>
-        <div style="margin-left:3%;">
-        <lightning-radio-group name="radioGroupForDoneStatus"
-                               label="Choose Done status"
-                               onchange={handleChangeDone}
-                               options={isDoneOptions}
-                               value={isDone}
-                               type="button"></lightning-radio-group>
-            <div>
-                Selected Value: <b>{isDone}</b>
-            </div>
-        </div>
         </br>
+        <div style="margin-left:3%;margin-right:3%;">
         <template if:true={todos}>
+            <template for:each={todos.data} for:item=todo>
+                <c-todo-list-item key={todo.Id} todo={todo}>
+                </c-todo-list-item>
+            </template>
+        </template>
+        </div>
+        <p>------------------------------</p>
+        <!---<template if:true={todos}>
             <template for:each={todos.data} for:item=todo>
                 <p key={todo.Id}>
                     <lightning-formatted-text key={todo.Id} value={todo.Name}></lightning-formatted-text>
@@ -41,6 +53,6 @@
                 </p>
                 <p key={todo.Id}>----------------</p>
             </template>
-        </template>
+        </template>--->
     </lightning-card>
 </template>
