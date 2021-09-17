@@ -8,15 +8,19 @@
                     <lightning-button onclick={openRecordTypeModal} variant="brand" label="Add ToDo">
                     </lightning-button>
                 </lightning-layout-item>
-                <lightning-layout-item alignment-bump="left">
+                <lightning-layout-item class="slds-var-m-left_xx-small">
                     <lightning-button-icon onclick={refresh} icon-name="utility:refresh" alternative-text="Refresh" title="Refresh">
                     </lightning-button-icon>
+                </lightning-layout-item>
+                <lightning-layout-item alignment-bump="left">
+                    <lightning-input type="toggle" name="input1" label="SubToDos" onchange={handleShowSubtodos} value={showsubtodos} message-toggle-active="Show" message-toggle-inactive="Don't Show">
+                    </lightning-input>
                 </lightning-layout-item>
             </lightning-layout>
             <div class="slds-scrollable" style="height:20rem">
                 <template if:true={todos}>
                     <template for:each={todos} for:item="todo">
-                        <c-todo-list-item isdisabled={isdisabled} ondisablebtns={disableBtns} onenablebtns={enableBtns} onrefreshreq={refresh} key={todo.Id} todo={todo}>
+                        <c-todo-list-item showsubtodos={showsubtodos} isdisabled={isdisabled} ondisablebtns={disableBtns} onenablebtns={enableBtns} onrefreshreq={refresh} key={todo.Id} todo={todo}>
                         </c-todo-list-item>
                     </template>
                 </template>

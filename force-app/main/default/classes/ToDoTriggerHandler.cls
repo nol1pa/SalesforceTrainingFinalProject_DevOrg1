@@ -32,6 +32,7 @@ public with sharing class ToDoTriggerHandler {
                     ToDoTriggerHandlerHelper.handleAfterInsert_future(
                         Trigger.newMap.keySet()
                     );
+                    ToDoTriggerHandlerHelper.setAfterInsertQueueByRecordType(Trigger.newMap.keySet());
                 }
                 when 'after_update' {
                     ToDoTriggerHandlerHelper.handleAfterUpdate_future(

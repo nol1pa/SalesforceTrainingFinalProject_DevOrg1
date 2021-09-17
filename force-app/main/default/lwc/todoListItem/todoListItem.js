@@ -6,6 +6,8 @@ export default class TodoListItem extends LightningElement {
     todoEditingModalOpened = false;
     subtodoEditingModalOpened = false;
     subtodoCreationModalOpened = false;
+    @api
+    showsubtodos;
     curSubtodoId = '';
     @api
     isdisabled;

@@ -3,6 +3,7 @@ import getAllTodosWithSubTodos from '@salesforce/apex/ToDoHandler.getAllTodosWit
 import {refreshApex} from '@salesforce/apex'
 
 export default class TodoList extends LightningElement {
+    showsubtodos = false;
     todos;
     res;
     progress = 0;
@@ -69,5 +70,8 @@ export default class TodoList extends LightningElement {
     }
     changeRecordTypeId(event){
         this.recordTypeId = event.target.value;
+    }
+    handleShowSubtodos(){
+        this.showsubtodos = !this.showsubtodos;
     }
 }

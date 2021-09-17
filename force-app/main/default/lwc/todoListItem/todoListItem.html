@@ -21,7 +21,8 @@
                     </lightning-button-icon>
                 </lightning-layout-item>
             </lightning-layout>
-            <template if:true={todo.SubToDos__r}>
+            <template if:true={showsubtodos}>
+                <template if:true={todo.SubToDos__r}>
                     <div class="slds-var-m-top_small slds-var-m-left_small slds-has-dividers_top">
                         <template for:each={todo.SubToDos__r} for:item="subtodo">
                             <lightning-layout class="slds-item" key={subtodo.Id}>
@@ -43,6 +44,7 @@
                             </lightning-layout>
                         </template>
                     </div>
+                </template>
             </template>
             <lightning-layout class="slds-var-m-top_xx-small">
                 <lightning-layout-item alignment-bump="left">
