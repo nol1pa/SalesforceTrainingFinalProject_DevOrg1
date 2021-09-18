@@ -1,4 +1,4 @@
-import {LightningElement, wire, track} from 'lwc';
+import {LightningElement, wire, track, api} from 'lwc';
 import findTodo from '@salesforce/apex/ToDoHandler.findTodosWithSubTodos';
 import {getPicklistValues} from 'lightning/uiObjectInfoApi';
 import {getObjectInfo} from 'lightning/uiObjectInfoApi';
@@ -13,6 +13,7 @@ export default class TodoSearch extends LightningElement {
     @track optionsForPriority = [];
     @track startDateKey = '2000-01-01T00:00:00Z';
     @track endDateKey = '';
+
     /*@track
     query = 'SELECT Name, Description__c, Priority__c, Connected_Org_Record_Id__c, ' +
         + 'Image_URL__c, Is_Done__c, CreatedDate, RecordTypeId, (SELECT Name, Description__c, ' +
