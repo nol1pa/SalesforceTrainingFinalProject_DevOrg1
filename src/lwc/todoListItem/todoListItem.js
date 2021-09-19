@@ -24,6 +24,7 @@ export default class TodoListItem extends LightningElement {
         this._todo.RecordTypeId = value.RecordTypeId;
         this._todo.SubToDos__r = 
         value.SubToDos__r ? JSON.parse(JSON.stringify(value.SubToDos__r)) : undefined;
+        this.recheckStatus();
     }
 
     renderedCallback(){
@@ -132,5 +133,15 @@ export default class TodoListItem extends LightningElement {
     closeSubtodoCreationModal(){
         this.dispatchEvent(new CustomEvent('refreshreq'));
         this.subtodoCreationModalOpened = false;
+    }
+    recheckStatus(){
+        if(this._todo.SubToDos__r){
+            const allDone = this._todo.SubToDos__r.reduce((acc, curr)=>{
+                return acc && curr.Is_Done__c;
+            },true);
+            this._todo.Is_Done__c = allDone;
+            updateTodo({todo : this._todo});
+        }
+        
     }
 }
