@@ -1,0 +1,52 @@
+<template>
+    <lightning-card>
+        <lightning-layout vertical-align="center" 
+        class="slds-box slds-var-m-around_small">
+        <template if:true={todo}>
+            <lightning-layout-item>   
+                <lightning-record-view-form record-id={todo.Id} object-api-name="Todo__c">
+                    <img src={todo.Image_URL__c}>
+                    <lightning-output-field field-name="Name">
+                    </lightning-output-field>
+                    <lightning-output-field field-name="Creation_Date__c">
+                    </lightning-output-field>
+                    <lightning-output-field field-name="Lifetime_Value__c">
+                    </lightning-output-field>
+                    <lightning-output-field field-name="Is_Done__c">
+                    </lightning-output-field>
+                    <lightning-output-field field-name="Priority__c">
+                    </lightning-output-field>
+                    <lightning-output-field field-name="Description__c">
+                    </lightning-output-field>
+                    <lightning-output-field field-name="OwnerId">
+                    </lightning-output-field>
+                    <lightning-output-field field-name="Connected_Org_Record_Id__c">
+                    </lightning-output-field>
+                </lightning-record-view-form>
+                <lightning-layout-item>
+                    <lightning-button onclick={openSubtodosModal} variant="brand" label="Check subtodos">
+                    </lightning-button>
+                </lightning-layout-item>
+
+                <lightning-card>
+                    <template if:true={subtodos}>
+                        <template for:each={subtodos} for:item="subtodo">
+                            
+                        </template>
+                    </template>
+                    <template if:false={subtodos}> <!-- or get function XD -->
+                        <p> There is NOOO SUBTOOODOOOS</p>
+                    </template>
+
+                </lightning-card>
+                <!--add subtodo list lwc -->
+            </lightning-layout-item>
+        </template>
+        <template if:false={todo}>
+            <lightning-layout-item>
+                Select Todo in list component
+            </lightning-layout-item>
+        </template>
+        </lightning-layout>
+    </lightning-card>
+</template>

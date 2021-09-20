@@ -4,22 +4,22 @@ import {getPicklistValues} from 'lightning/uiObjectInfoApi';
 import {getObjectInfo} from 'lightning/uiObjectInfoApi';
 import TODO_OBJECT from '@salesforce/schema/ToDo__c';
 import Priority_FIELD from '@salesforce/schema/ToDo__c.Priority__c';
+import {refreshApex} from "@salesforce/apex";
 
 export default class TodoSearch extends LightningElement {
 
-
     nameKey = '';
+    res;
     @track priorityKey = '';
     @track optionsForPriority = [];
     @track startDateKey = '2000-01-01T00:00:00Z';
     @track endDateKey = '';
+    @api showsubtodos;
+    @api isdisabled;
+    @api disableBtns;
+    @api enableBtns;
+    @api refresh;
 
-    /*@track
-    query = 'SELECT Name, Description__c, Priority__c, Connected_Org_Record_Id__c, ' +
-        + 'Image_URL__c, Is_Done__c, CreatedDate, RecordTypeId, (SELECT Name, Description__c, ' +
-        + 'Priority__c, Connected_Org_Record_Id__c, Image_URL__c, Is_Done__c, CreatedDate, ToDo__c FROM SubToDos__r ' +
-        + 'ORDER BY CreatedDate) FROM ToDo__c WHERE ' + 'Name Like %' + this.nameKey + '%'
-        + ' ORDER BY CreatedDate';*/
 
     @wire(findTodo, {
         priorityKey: '$priorityKey',
@@ -29,18 +29,24 @@ export default class TodoSearch extends LightningElement {
     })
     todos;
 
+    refresh(){
+        refreshApex(this.refresh);
+    }
+
     handleChange(event) {
+        this.dispatchEvent(new CustomEvent('getname'));
         window.clearTimeout(this.delayTimeout);
         const nameKey = event.target.value;
         this.delayTimeout = setTimeout(() => {
             this.nameKey = nameKey;
         }, 300);
+        this.refresh();
     }
 
     connectedCallback(){
         const today = new Date();
         this.endDateKey=today.toISOString();
-        console.log(today.toISOString())
+        console.log(today.toISOString());
     }
 
 
@@ -55,10 +61,12 @@ export default class TodoSearch extends LightningElement {
         this.endDateKey=today.toISOString();
         console.log(today.toISOString())
         this.startDateKey = '2000-01-01T00:00:00Z';
+        this.refresh();
     }
 
 
     handleChangeDate(event) {
+        this.dispatchEvent(new CustomEvent('getdate'));
         window.clearTimeout(this.delayTimeout);
         const endDateKey = event.target.value;
         this.startDateKey = setTimeout(() => {
@@ -67,6 +75,7 @@ export default class TodoSearch extends LightningElement {
         this.endDateKey = setTimeout(() => {
             this.endDateKey = endDateKey + 'T23:59:59Z';
         }, 300);
+        this.refresh();
     }
 
 
@@ -95,39 +104,12 @@ export default class TodoSearch extends LightningElement {
     }
 
     handleChangePriority(event) {
+        this.dispatchEvent(new CustomEvent('getpriority'));
         window.clearTimeout(this.delayTimeout);
         const priorityKey = event.target.value;
         this.delayTimeout = setTimeout(() => {
             this.priorityKey = priorityKey;
         }, 300);
+        this.refresh();
     }
-
-
-
-    //rework this for isDone checkbox
-
-    /*handleChangePriority(event) {
-        window.clearTimeout(this.delayTimeout);
-        const priorityKey = event.target.value;
-        this.delayTimeout = setTimeout(() => {
-            this.priorityKey = priorityKey;
-        }, 300);
-    }
-
-    get optionsForPriority() {
-        return [
-            {label: 'High', priorityKey: 'High'},
-            {label: 'Medium', priorityKey: 'Medium'},
-            {label: 'Low', priorityKey: 'Low'},
-            {label: 'All', priorityKey: ''},
-        ];
-    }
-
-    get optionsForDone() {
-        return [
-            {label: 'Done', isDone: 'TRUE'},
-            {label: 'Not done', isDone: 'FALSE'},
-            {label: 'All', isDone: ''},
-        ];
-    }*/
 }
