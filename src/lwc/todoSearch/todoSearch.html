@@ -11,7 +11,7 @@
                                            label="Choose priority"
                                            onchange={handleChangePriority}
                                            options={optionsForPriority}
-                                           value={priorityKey}
+                                           value={key.priorityFKey}
                                            type="button"></lightning-radio-group>
                     <div>
                         Selected Value: <b>{priorityKey}</b>
@@ -24,21 +24,21 @@
                                          name="input1"
                                          label="Enter a date"
                                          onchange={handleChangeDate}
-                                         value={endDateKey}></lightning-input>
+                                         value={key.endDateFKey}></lightning-input>
                         </br>
                         <lightning-button label="Clear date" title="Non-primary action" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
-                        Selected Value: <b>{endDateKey}</b>
+                        Selected Value: <b>{key.endDateFKey}</b>
                     </div>
         </template>
         </br>
 
-        <div class="slds-scrollable" style="height:20rem;margin-left:3%;margin-right:3%;">
+        <!---<div class="slds-scrollable" style="height:20rem;margin-left:3%;margin-right:3%;">
         <template if:true={todos}>
             <template for:each={todos.data} for:item=todo>
-                <c-todo-list-item showsubtodos={showsubtodos} isdisabled={isdisabled} ondisablebtns={disableBtns} onenablebtns={enableBtns} onrefreshreq={refresh} key={todo.Id} todo={todo}>
+                <c-todo-list-item key={todo.Id} todo={todo}>
                 </c-todo-list-item>
             </template>
         </template>
-        </div>
+        </div>--->
     </lightning-card>
 </template>
