@@ -1,8 +1,15 @@
-import { api, LightningElement, track } from 'lwc';
+import { api, LightningElement, track, wire } from 'lwc';
 import updateTodoWithSubTodos from '@salesforce/apex/ToDoHandler.updateTodoWithSubTodos';
 import updateTodo from '@salesforce/apex/ToDoHandler.updateTodo';
 import { deleteRecord } from 'lightning/uiRecordApi';
+
+import { publish, MessageContext } from 'lightning/messageService';//-
+import TODO_SELECTED_CHANNEL from '@salesforce/messageChannel/Todo_Selected__c';//-
+
 export default class TodoListItem extends LightningElement {
+    @wire(MessageContext)//-
+    messageContext;//-
+
     todoEditingModalOpened = false;
     subtodoEditingModalOpened = false;
     subtodoCreationModalOpened = false;
@@ -143,5 +150,9 @@ export default class TodoListItem extends LightningElement {
             updateTodo({todo : this._todo});
         }
         
+    }
+    selectTodo(){
+        const payload = { selectedTodoId : this._todo.Id};
+        publish(this.messageContext, TODO_SELECTED_CHANNEL, payload);
     }
 }

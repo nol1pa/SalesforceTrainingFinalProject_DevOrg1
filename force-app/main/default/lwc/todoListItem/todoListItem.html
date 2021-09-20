@@ -10,7 +10,9 @@
                     onchange={handleTodoDoneChange} disabled={isdisabled}/>
                 </lightning-layout-item>
                 <lightning-layout-item>
+                    <a href="#" onclick={selectTodo}>
                     <b>{todo.Name}</b>
+                    </a>
                 </lightning-layout-item>
                 <lightning-layout-item alignment-bump="left">
                     <lightning-button-icon icon-name="utility:edit" alternative-text="Edit" size="small" onclick={editTodo} disabled={isdisabled}>

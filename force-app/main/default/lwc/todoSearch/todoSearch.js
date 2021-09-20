@@ -14,12 +14,15 @@ export default class TodoSearch extends LightningElement {
     @track optionsForPriority = [];
     @track startDateKey = '2000-01-01T00:00:00Z';
     @track endDateKey = '';
-    @api showsubtodos;
-    @api isdisabled;
-    @api disableBtns;
-    @api enableBtns;
-    @api refresh;
 
+    @track key = { priorityFKey : this.priorityKey, nameFKey : this.nameKey, startDateFKey : this.startDateKey, endDateFKey : this.endDateKey};
+
+    getParamForKey(){
+        this.key.priorityFKey = 'High';
+        this.key.nameFKey = '';
+        this.key.startDateFKey = '2030-01-01T00:00:00Z';
+        this.key.endDateFKey = '';
+    }
 
     @wire(findTodo, {
         priorityKey: '$priorityKey',
@@ -34,7 +37,6 @@ export default class TodoSearch extends LightningElement {
     }
 
     handleChange(event) {
-        this.dispatchEvent(new CustomEvent('getname'));
         window.clearTimeout(this.delayTimeout);
         const nameKey = event.target.value;
         this.delayTimeout = setTimeout(() => {
@@ -46,6 +48,7 @@ export default class TodoSearch extends LightningElement {
     connectedCallback(){
         const today = new Date();
         this.endDateKey=today.toISOString();
+        this.getParamForKey();
         console.log(today.toISOString());
     }
 
@@ -66,7 +69,6 @@ export default class TodoSearch extends LightningElement {
 
 
     handleChangeDate(event) {
-        this.dispatchEvent(new CustomEvent('getdate'));
         window.clearTimeout(this.delayTimeout);
         const endDateKey = event.target.value;
         this.startDateKey = setTimeout(() => {
@@ -104,7 +106,6 @@ export default class TodoSearch extends LightningElement {
     }
 
     handleChangePriority(event) {
-        this.dispatchEvent(new CustomEvent('getpriority'));
         window.clearTimeout(this.delayTimeout);
         const priorityKey = event.target.value;
         this.delayTimeout = setTimeout(() => {
