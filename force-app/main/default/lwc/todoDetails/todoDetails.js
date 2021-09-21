@@ -10,26 +10,27 @@ export default class TodoDetails extends LightningElement {
     selectedTodoId = '';//получается из message channel
     subscribtion = null;
     subtodos = '';
-    error;
+
+    
     @wire(MessageContext)
     messageContext;
+    
 
-    /*@wire(getTodo, { selectedTodoId: '$todoId'})
+
+    @wire(getTodo, { todoId: '$selectedTodoId'})
     getTodo(result){
-        this.res = result;
         console.log(result.data);
         if(result.data){
             this.todo = result.data;
         }
-    }*/
+    }
 
-   /* @wire(getSubtodosOfTodo, {selectedTodoId : '$todoId'}) 
+    @wire(getSubtodosOfTodo, {todoId : '$selectedTodoId'}) 
     getSubTodos(result){
-        this.res = result;
         if(result.data){
            this.subtodos = result.data;
         }
-    }*/
+    }
 
     subscribeToMessageChannel(){
         this.subscribtion = subscribe(
@@ -41,17 +42,6 @@ export default class TodoDetails extends LightningElement {
 
     handleMessage(message){
         this.selectedTodoId = message.selectedTodoId;
-        if(this.selectedTodoId != ''){
-            getTodo({ selectedTodoId: '$todoId'})
-            .then(result => {
-                this.todo = result;
-                console.log(result);   
-            })
-            .catch(error => {
-                this.error = error;
-            });
-
-        }
     }
 
     connectedCallback(){

@@ -5,49 +5,35 @@
 public with sharing class ToDoDeleteBatch implements Database.Batchable<sObject>, Database.Stateful{
 
     public Database.QueryLocator start(Database.BatchableContext batchableContext){
-        return Database.getQueryLocator('SELECT Id, Name, CreatedDate, Lifetime_Value__c FROM ToDo__c');
+        List<Lifetime__mdt> lifetimes = Lifetime__mdt.getAll().values();
+        Integer quantity = Integer.valueOf(lifetimes.get(0).Quantity__c);
+        String unitOfTime = lifetimes.get(0).Unit_of_time__c;
+        Datetime nowTime = Datetime.now();
+        Long lifetime = 0L;
+        switch on unitOfTime.toLowerCase(){
+            when 'year'{
+                lifetime = quantity * 12L * 30L * 24L * 60L * 60L * 1000L;
+            }
+            when 'month'{
+                lifetime = quantity * 30L * 24L * 60L * 60L * 1000L;
+            }
+            when 'day'{
+                lifetime = quantity * 24L * 60L * 60L * 1000L;
+            }
+            when 'hour'{
+                lifetime = quantity * 60L * 60L * 1000L;
+            }
+            when 'minute'{
+                lifetime = quantity * 60L * 1000L;
+            }
+        }
+        Long diffTimeInMilliseconds = nowTime.getTime() - lifetime;
+        Datetime diffTime = Datetime.newInstance(diffTimeInMilliseconds);
+        return Database.getQueryLocator('SELECT Id, CreatedDate FROM ToDo__c WHERE CreatedDate < :diffTime');
     }
 
     public void execute(Database.BatchableContext batchableContext, List<ToDo__c> todos){
-        List<ToDo__c> todosForDelete;
-        for(ToDo__c todo : todos){
-            List<String> lifetime = todo.Lifetime_Value__c.split(' ');
-            Integer quantity = Integer.valueOf(lifetime.get(0));
-            String unitOfTime = lifetime.get(1);
-            switch on unitOfTime.toLowerCase(){
-                when 'year'{
-                    DateTime myDateTime = DateTime.newInstance(quantity, 0, 0, 0, 0, 0);
-                    if((Datetime.now().getTime() - todo.CreatedDate.getTime()) > myDateTime.getTime()){
-                        todosForDelete.add(todo);
-                    }
-                }
-                when 'month'{
-                    DateTime myDateTime = DateTime.newInstance(0, quantity, 0, 0, 0, 0);
-                    if((Datetime.now().getTime() - todo.CreatedDate.getTime()) > myDateTime.getTime()){
-                        todosForDelete.add(todo);
-                    }
-                }
-                when 'day'{
-                    DateTime myDateTime = DateTime.newInstance(0, 0, quantity, 0, 0, 0);
-                    if((Datetime.now().getTime() - todo.CreatedDate.getTime()) > myDateTime.getTime()){
-                        todosForDelete.add(todo);
-                    }
-                }
-                when 'hour'{
-                    DateTime myDateTime = DateTime.newInstance(0, 0, 0, quantity, 0, 0);
-                    if((Datetime.now().getTime() - todo.CreatedDate.getTime()) > myDateTime.getTime()){
-                        todosForDelete.add(todo);
-                    }
-                }
-                when 'minute'{
-                    DateTime myDateTime = DateTime.newInstance(0, 0, 0, 0, quantity, 0);
-                    if((Datetime.now().getTime() - todo.CreatedDate.getTime()) > myDateTime.getTime()){
-                        todosForDelete.add(todo);
-                    }
-                }
-            }
-        }
-        delete todosForDelete;
+        delete todos;
     }
 
     public void finish(Database.BatchableContext batchableContext){

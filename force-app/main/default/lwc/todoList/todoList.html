@@ -17,6 +17,10 @@
                     </lightning-input>
                 </lightning-layout-item>
             </lightning-layout>
+            <div>
+                <c-todo-search-another onkeychange={handleKeyChange}>
+                </c-todo-search-another>
+            </div>
             <!-- <c-todo-search showsubtodos={showsubtodos} isdisabled={isdisabled} ondisablebtns={disableBtns} onenablebtns={enableBtns} refresh={refresh}></c-todo-search> -->
             <div class="slds-scrollable" style="height:20rem">
                 <template if:true={todos}>

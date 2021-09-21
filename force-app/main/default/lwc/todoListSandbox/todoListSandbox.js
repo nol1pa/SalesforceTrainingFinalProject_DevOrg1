@@ -1,14 +1,13 @@
-import {LightningElement, track, wire} from 'lwc';
-import getAllTodosWithSubTodos from '@salesforce/apex/ToDoHandler.findTodosWithSubTodos';
+import {LightningElement, track, wire, api} from 'lwc';
+import findTodo from '@salesforce/apex/ToDoHandler.findTodosWithSubTodos';
 import {refreshApex} from '@salesforce/apex'
 
 export default class TodoListSandbox extends LightningElement {
 
-    nameKey = '';
-    priorityKey = '';
-    startDateKey = '';
-    endDateKey = '';
-
+    @track nameKey;
+    @track priorityKey;
+    @track startDateKey;
+    @track endDateKey;
 
     showsubtodos = false;
     todos;
@@ -25,11 +24,39 @@ export default class TodoListSandbox extends LightningElement {
             {label:'Management', value:'0125g000001qnSdAAI'}
         ];
     }
-    @wire(getAllTodosWithSubTodos, {
+    connectedCallback() {
+        this.nameKey = '';
+        this.priorityKey = '';
+        this.startDateKey = '2000-01-01T00:00:00Z';
+        const today = new Date();
+        this.endDateKey=today.toISOString();
+        console.log(today.toISOString());
+    }
+
+    handlename(event){
+        this.nameKey = event.detail.nameKey;
+        // this.priorityKey = event.detail.priorityKey;
+        // this.startDateKey = event.detail.startDateKey;
+        // this.endDateKey = event.detail.endDateKey;
+        console.log('name: ' + this.nameKey);
+    }
+    clickforclear(event){
+        this.startDateKey = '2000-01-01T00:00:00Z';
+        this.endDateKey = event.detail.endDateKey;
+    }
+    handlepriority(event){
+        this.priorityKey = event.detail.priorityKey;
+    }
+    handledate(event){
+        this.startDateKey = event.detail.endDateKey + 'T00:00:00Z';
+        this.endDateKey = event.detail.endDateKey + 'T23:59:59Z';
+        console.log('starrtDatettete ' + this.startDateKey + ' enddate ' + this.endDateKey);
+    }
+    @wire(findTodo, {
             priorityKey: '$priorityKey',
             nameKey: '$nameKey',
             startDateKey: '$startDateKey',
-            endDateKey: '$endDateKey',
+            endDateKey: '$endDateKey'
     })
     getTodos(result){
         this.res = result;
@@ -37,26 +64,6 @@ export default class TodoListSandbox extends LightningElement {
             this.todos = result.data;
             this.countProgress();
         }
-    }
-
-    getname(event){
-        this.nameKey = event.target.value;
-    }
-
-    getpriority(event){
-        this.priorityKey = event.target.value;
-    }
-
-    getdate(event){
-        this.endDateKey = event.target.value;
-        this.startDateKey = event.target.value;
-    }
-
-    key(){
-        this.nameFKey = this.nameKey;
-        this.priorityFKey = this.priorityKey;
-        this.startDateFKey = this.startDateKey;
-        this.endDateFKey = this.endDateKey;
     }
 
     renderedCallback(){

@@ -1,49 +1,77 @@
 <template>
     <lightning-card>
-        <lightning-layout vertical-align="center" 
-        class="slds-box slds-var-m-around_small">
+        <!--<lightning-layout vertical-align="center" 
+        class="slds-var-m-around_small"> -->
         <template if:false={isTodoEmpty}>
-            <p> {todo.Name} </p>
             <lightning-layout-item>   
-                <lightning-record-view-form record-id={todo.Id} object-api-name="Todo__c">
-                    <img src={todo.Image_URL__c}>
-                    <lightning-output-field field-name="Name">
-                    </lightning-output-field>
-                    <lightning-output-field field-name="Creation_Date__c">
-                    </lightning-output-field>
-                    <lightning-output-field field-name="Lifetime_Value__c">
-                    </lightning-output-field>
-                    <lightning-output-field field-name="Is_Done__c">
-                    </lightning-output-field>
-                    <lightning-output-field field-name="Priority__c">
-                    </lightning-output-field>
-                    <lightning-output-field field-name="Description__c">
-                    </lightning-output-field>
-                    <lightning-output-field field-name="OwnerId">
-                    </lightning-output-field>
-                    <lightning-output-field field-name="Connected_Org_Record_Id__c">
-                    </lightning-output-field>
-                </lightning-record-view-form>
+                <lightning-layout vertical-align="center" 
+                class="slds-box slds-var-m-around_small">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom_medium">
+                        <lightning-input type="text" label="Todos name" value={todo.Name} readonly></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom_medium">
+                        <img src={todo.Image_URL__c} alt="[no image on todo]">
+                    </div>
+                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom_medium">
+                        <lightning-input type="toggle" label="Is done" value={todo.Is_Done__c} checked disabled></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom_medium">
+                        <lightning-input type="text" label="Priority" value={todo.Priority__c} readonly></lightning-input>
+                    </div>
+                    <div class="slds-col slds-size_12-of-12 slds-p-horizontal--medium slds-m-bottom_medium">
+                        <lightning-textarea name="description" readonly value={todo.Description__c} label="Description" ></lightning-textarea>
+                    </div>
+                </div>
+                </lightning-layout>
                 
                 <lightning-card>
-                    <template if:false={isSubTodosEmpty}>
-                        <template for:each={subtodos} for:item="subtodo">
-                            dwdwdwd
+                    <lightning-layout vertical-align="center" 
+                    class="slds-box slds-var-m-around_small">
+                        <template if:false={isSubTodosEmpty}>
+                            <div class="slds-scrollable" style="height:10rem;width:25rem">
+                                <template for:each={subtodos} for:item="subtodo">
+                                    <lightning-layout key={subtodo.Id} vertical-align="center" 
+                                        class="slds-box slds-var-m-around_small">
+                                        <div class="slds-grid slds-wrap">
+                                            <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom_medium">
+                                                <lightning-input type="text" label="Subtodos name" value={subtodo.Name} readonly></lightning-input>
+                                            </div>
+                                            <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom_medium">
+                                                <img src={subtodo.Image_URL__c} alt="[no image on todo]">
+                                            </div>
+                                            <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom_medium">
+                                                <lightning-input type="toggle" label="Is done" value={subtodo.Is_Done__c} checked disabled></lightning-input>
+                                            </div>
+                                            <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom_medium">
+                                                <lightning-input type="text" label="Priority" value={subtodo.Priority__c} readonly></lightning-input>
+                                            </div>
+                                            <div class="slds-col slds-size_12-of-12 slds-p-horizontal--medium slds-m-bottom_medium">
+                                                <lightning-textarea name="description" readonly value={subtodo.Description__c} label="Description" ></lightning-textarea>
+                                            </div>
+                                        </div>
+                                        </lightning-layout>
+                                </template>
+                            </div>
                         </template>
-                    </template>
-                    <template if:true={isSubTodosEmpty}> 
-                        <p> There is NOOO SUBTOOODOOOS</p>
-                    </template>
+                        <template if:true={isSubTodosEmpty}> 
+                            <p> There is NOOO SUBTOOODOOOS</p>
+                        </template>
+                    </lightning-layout>
 
                 </lightning-card>
                 <!--add subtodo list lwc -->
             </lightning-layout-item>
         </template>
+
         <template if:true={isTodoEmpty}>
+            <lightning-layout vertical-align="center" 
+                class="slds-box slds-var-m-around_small">
             <lightning-layout-item>
                 Select Todo in list component
             </lightning-layout-item>
+            </lightning-layout>
         </template>
-        </lightning-layout>
+        <!--</lightning-layout> -->
     </lightning-card>
 </template>

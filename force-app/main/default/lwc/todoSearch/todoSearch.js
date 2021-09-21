@@ -8,24 +8,22 @@ import {refreshApex} from "@salesforce/apex";
 
 export default class TodoSearch extends LightningElement {
 
-    // nameKey = '';
-    // @track priorityKey = '';
-    // @track optionsForPriority = [];
-    // @track startDateKey = '2000-01-01T00:00:00Z';
-    // @track endDateKey = '';
+    @track nameKey = '';
+    @track priorityKey = '';
+    @track optionsForPriority = [];
+    @track startDateKey = '2000-01-01T00:00:00Z';
+    @track endDateKey = '';
 
-    @track key = { priorityFKey : '', nameFKey : '', startDateFKey : '2000-01-01T00:00:00Z', endDateFKey : ''};
-
-    @api
-    get key(){
-        return this.key;
-    }
-    set key(value){
-        this.key.priorityFKey = value.priorityFKey;
-        this.key.nameFKey = value.nameFKey;
-        this.key.startDateFKey = value.startDateFKey;
-        this.key.endDateFKey = value.endDateFKey;
-    }
+    // @api
+    // get key(){
+    //     return this.key;
+    // }
+    // set key(value){
+    //     this.key.priorityFKey = value.priorityFKey;
+    //     this.key.nameFKey = value.nameFKey;
+    //     this.key.startDateFKey = value.startDateFKey;
+    //     this.key.endDateFKey = value.endDateFKey;
+    // }
 
     // @wire(findTodo, {
     //     priorityKey: '$priorityKey',
@@ -39,24 +37,9 @@ export default class TodoSearch extends LightningElement {
         refreshApex(this.refresh);
     }
 
-    handleChange(event) {
-        const nameKey = event.target.value;
-        const eventDetail = new CustomEvent('getname',{
-                detail:{
-                    // nameKey : this.key.nameFKey;
-                }
-            });
-        // window.clearTimeout(this.delayTimeout);
-        // const nameKey = event.target.value;
-        // this.delayTimeout = setTimeout(() => {
-        //     this.key.nameFKey = nameKey;
-        // }, 300);
-        // this.refresh();
-    }
-
     connectedCallback(){
         const today = new Date();
-        this.key.endDateFKey=today.toISOString();
+        this.endDateKey=today.toISOString();
         console.log(today.toISOString());
     }
 
@@ -68,23 +51,29 @@ export default class TodoSearch extends LightningElement {
     }
 
     handleClick(){
+        const lwcEvent4 = new CustomEvent('eventclick', {
+            detail:{endDateKey:this.endDateKey}
+        });
+        this.dispatchEvent(lwcEvent4);
         const today = new Date();
-        this.key.endDateFKey=today.toISOString();
-        console.log(today.toISOString())
-        this.key.startDateFKey = '2000-01-01T00:00:00Z';
+        this.endDateKey=today.toISOString();
+        console.log(today.toISOString());
         this.refresh();
     }
 
 
     handleChangeDate(event) {
-        this.dispatchEvent(new CustomEvent('getdate'));
+        const lwcEvent2 = new CustomEvent('eventdate', {
+            detail:{endDateKey:this.endDateKey}
+        });
+        this.dispatchEvent(lwcEvent2);
         window.clearTimeout(this.delayTimeout);
-        const endDateKey = event.target.value;
-        this.key.startDateFKey = setTimeout(() => {
-            this.key.startDateFKey = endDateKey + 'T00:00:00Z';
+        const endDateKey = event.target.value.toISOString();
+        this.startDateKey = setTimeout(() => {
+            this.startDateKey = endDateKey; //+ 'T00:00:00Z';
         }, 300);
-        this.key.endDateFKey = setTimeout(() => {
-            this.key.endDateFKey = endDateKey + 'T23:59:59Z';
+        this.endDateKey = setTimeout(() => {
+            this.endDateKey = endDateKey; // + 'T23:59:59Z';
         }, 300);
         this.refresh();
     }
@@ -115,12 +104,40 @@ export default class TodoSearch extends LightningElement {
     }
 
     handleChangePriority(event) {
-        this.dispatchEvent(new CustomEvent('getpriority'));
+        const lwcEvent1 = new CustomEvent('eventpriority', {
+            detail:{priorityKey:this.priorityKey}
+        });
+        this.dispatchEvent(lwcEvent1);
         window.clearTimeout(this.delayTimeout);
         const priorityKey = event.target.value;
         this.delayTimeout = setTimeout(() => {
-            this.key.priorityFKey = priorityKey;
+            this.priorityKey = priorityKey;
         }, 300);
         this.refresh();
     }
+
+    handleChange(event) {
+        const lwcEvent3 = new CustomEvent('eventname', {
+            detail:{nameKey:this.nameKey, priorityKey:this.priorityKey, startDateKey:this.startDateKey, endDateKey:this.endDateKey}
+        });
+        window.clearTimeout(this.delayTimeout);
+        const nameKey = event.target.value.nameKey;
+        this.delayTimeout = setTimeout(() => {
+        this.nameKey = nameKey;
+        }, 300);
+        // const priorityKey = event.target.value.priorityKey;
+        // this.delayTimeout = setTimeout(() => {
+        //     this.priorityKey = priorityKey;
+        // }, 300);
+        // const endDateKey = event.target.value.endDateKey.toISOString();
+        // this.startDateKey = setTimeout(() => {
+        // this.startDateKey = endDateKey + 'T00:00:00Z';
+        // }, 300);
+        // this.endDateKey = setTimeout(() => {
+        // this.endDateKey = endDateKey + 'T23:59:59Z';
+        // }, 300);
+        this.refresh();
+        this.dispatchEvent(lwcEvent3);
+    }
+
 }
