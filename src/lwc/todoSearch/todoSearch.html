@@ -3,7 +3,7 @@
     <lightning-card class="slds-m-around_medium" title="Search Todos">
         <div style="margin-left:3%; margin-right:3%;">
         <lightning-input label="Search Todo" type="search" onchange={handleChange}></lightning-input>
-        <lightning-input onchange={handleChangeShow} type="toggle" label="Show additional filters" name="input1"></lightning-input>
+        <lightning-input value={nameKey} onchange={handleChangeShow} type="toggle" label="Show additional filters" name="input1"></lightning-input>
         </div>
             <template if:true={show}>
                 <div style="margin-left:3%; margin-right:3%;">
@@ -11,7 +11,7 @@
                                            label="Choose priority"
                                            onchange={handleChangePriority}
                                            options={optionsForPriority}
-                                           value={key.priorityFKey}
+                                           value={priorityKey}
                                            type="button"></lightning-radio-group>
                     <div>
                         Selected Value: <b>{priorityKey}</b>
@@ -24,13 +24,14 @@
                                          name="input1"
                                          label="Enter a date"
                                          onchange={handleChangeDate}
-                                         value={key.endDateFKey}></lightning-input>
+                                         value={endDateKey}></lightning-input>
                         </br>
                         <lightning-button label="Clear date" title="Non-primary action" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
-                        Selected Value: <b>{key.endDateFKey}</b>
+                        Selected Value: <b>{endDateKey}</b>
                     </div>
         </template>
         </br>
+
 
         <!---<div class="slds-scrollable" style="height:20rem;margin-left:3%;margin-right:3%;">
         <template if:true={todos}>
