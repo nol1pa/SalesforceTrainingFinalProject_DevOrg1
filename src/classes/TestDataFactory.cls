@@ -8,21 +8,23 @@ public class TestDataFactory {
     public static TestSubTodoFactory SUBTODO = new TestSubTodoFactory();
 
     public class TestCaseFactory{
-        public Case createDummyCase(String subject, String description, String origin, Boolean needInsert){
+        public Case createDummyCase(String subject, String description, String origin, Id ownerId, Boolean needInsert){
             Case caseObj = new Case();
             caseObj.Subject = subject;
             caseObj.Description = description;
             caseObj.Origin = origin;
+            caseObj.OwnerId = ownerId;
             if(needInsert) insert caseObj;
             return caseObj;
         }
     }
 
     public class TestTodoFactory{
-        public ToDo__c createDummyTodo(String name, Id recordTypeId, Boolean needInsert){
+        public ToDo__c createDummyTodo(String name, Id recordTypeId, Id ownerId, Boolean needInsert){
             ToDo__c todo = new ToDo__c();
             todo.Name = name;
             todo.RecordTypeId = recordTypeId;
+            todo.OwnerId = ownerId;
             if(needInsert) insert todo;
             return todo;
         }
