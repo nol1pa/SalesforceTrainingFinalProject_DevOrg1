@@ -3,18 +3,18 @@
  */
 @IsTest
 public class TestDataFactory {
-    public static TestCaseFactory CASE = new TestCaseFactory();
+    public static TestCaseFactory CASEOBJ = new TestCaseFactory();
     public static TestTodoFactory TODO = new TestTodoFactory();
     public static TestSubTodoFactory SUBTODO = new TestSubTodoFactory();
 
     public class TestCaseFactory{
         public Case createDummyCase(String subject, String description, String origin, Boolean needInsert){
-            Case case = new Case();
-            case.Subject = subject;
-            case.Description = description;
-            case.Origin = origin;
-            if(needInsert) insert case;
-            return case;
+            Case caseObj = new Case();
+            caseObj.Subject = subject;
+            caseObj.Description = description;
+            caseObj.Origin = origin;
+            if(needInsert) insert caseObj;
+            return caseObj;
         }
     }
 
