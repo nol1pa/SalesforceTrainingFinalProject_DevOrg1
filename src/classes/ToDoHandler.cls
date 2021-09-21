@@ -39,6 +39,19 @@ public with sharing class ToDoHandler {
         //return Database.query(getQuery);
     }
 
+    @AuraEnabled(Cacheable=true)
+    public static ToDo__c getTodoById(String todoId) {
+        return [
+                SELECT Name, Description__c, Priority__c, Connected_Org_Record_Id__c,
+                        Image_URL__c, Is_Done__c, CreatedDate, RecordTypeId
+                FROM ToDo__c
+                WHERE Id =: todoId 
+                limit 1
+        ];
+    }
+
+
+
     @AuraEnabled
     public static ToDo__c updateTodoWithSubTodos(
             ToDo__c todo, List<SubToDo__c> subtodos
