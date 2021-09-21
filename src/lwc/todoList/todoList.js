@@ -1,8 +1,34 @@
 import { LightningElement, track, wire } from 'lwc';
 import getAllTodosWithSubTodos from '@salesforce/apex/ToDoHandler.getAllTodosWithSubTodos';
-import {refreshApex} from '@salesforce/apex'
+import {refreshApex} from '@salesforce/apex';
+
+import findTodosWithSubTodos from '@salesforce/apex/ToDoHandler.findTodosWithSubTodos';//
 
 export default class TodoList extends LightningElement {
+    
+    priorityKey='';
+    nameKey='';
+    @wire(findTodosWithSubTodos,{
+        priorityKey:'$priorityKey',
+        nameKey:'$nameKey',
+        startDateKey:'2000-01-01T00:00:00Z',
+        endDateKey:'2021-09-21T00:00:00Z'
+    })
+    getTodos(result){
+        this.res = result;
+        if(result.data){
+            this.todos = result.data;
+            this.countProgress();
+        }
+    }
+    handleKeyChange(event){
+        console.log(event.detail.nameKey);
+        console.log(event.detail.priorityKey);
+        this.nameKey = event.detail.nameKey;
+        this.priorityKey = event.detail.priorityKey;
+    }
+
+
     showsubtodos = false;
     todos;
     res;
@@ -10,6 +36,7 @@ export default class TodoList extends LightningElement {
     isdisabled = false;
     creationModalOpened = false;
     recordTypeModalOpened = false;
+
     recordTypeId = '0125g000001qnSTAAY';
     get recordTypeOptions(){
         return [
@@ -18,14 +45,14 @@ export default class TodoList extends LightningElement {
             {label:'Management', value:'0125g000001qnSdAAI'}
         ];
     }
-    @wire(getAllTodosWithSubTodos)
-    getTodos(result){
-        this.res = result;
-        if(result.data){
-            this.todos = result.data;
-            this.countProgress();
-        }
-    }
+    // @wire(getAllTodosWithSubTodos)
+    // getTodos(result){
+    //     this.res = result;
+    //     if(result.data){
+    //         this.todos = result.data;
+    //         this.countProgress();
+    //     }
+    // }
     renderedCallback(){
         this.refresh();
     }

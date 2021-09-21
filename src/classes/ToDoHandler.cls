@@ -43,7 +43,7 @@ public with sharing class ToDoHandler {
     public static ToDo__c getTodoById(String todoId) {
         return [
                 SELECT Name, Description__c, Priority__c, Connected_Org_Record_Id__c,
-                        Image_URL__c, Is_Done__c, CreatedDate, RecordTypeId
+                        Image_URL__c, Is_Done__c, CreatedDate, RecordTypeId, RecordType.Name, Owner.Name
                 FROM ToDo__c
                 WHERE Id =: todoId 
                 limit 1
