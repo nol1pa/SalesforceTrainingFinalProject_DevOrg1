@@ -3,7 +3,6 @@ public with sharing class ToDoTriggerHandlerHelper {
                 for(ToDo__c todo : (List<ToDo__c>)Trigger.new){
                         todo.Connected_Org_Record_Id__c = 
                         ((Map<Id, ToDo__C>)Trigger.oldMap).get(todo.Id).Connected_Org_Record_Id__c;
-                        System.debug(todo.Connected_Org_Record_Id__c);
                 }
         }
     
@@ -19,9 +18,9 @@ public with sharing class ToDoTriggerHandlerHelper {
             recTypeIds.put('Administration', Schema.SObjectType.ToDo__c.getRecordTypeInfosByName().get('Administration').getRecordTypeId());
             recTypeIds.put('Development', Schema.SObjectType.ToDo__c.getRecordTypeInfosByName().get('Development').getRecordTypeId());
             //Да, да, трожки говнокод, но пока хз, как это норм и удобно в коллекции оформить да и онли 6 запросов идет в бдху на транзакцию ОТСЮДАВА
-            Group qMan = [SELECT Id FROM Group WHERE Name = 'Managequeue' and Type='Queue'];
-            Group qDev = [SELECT Id FROM Group WHERE Name = 'Devqueue' and Type='Queue'];
-            Group qAdm = [SELECT Id FROM Group WHERE Name = 'Adminqueue' and Type='Queue'];
+            Group qMan = [SELECT Id FROM Group WHERE Name = 'Managequeue' AND Type='Queue' LIMIT 1];
+            Group qDev = [SELECT Id FROM Group WHERE Name = 'Devqueue' AND Type='Queue' LIMIT 1];
+            Group qAdm = [SELECT Id FROM Group WHERE Name = 'Adminqueue' AND Type='Queue' LIMIT 1];
             for(ToDo__c todo : todos){
                 if(todo.RecordTypeId == recTypeIds.get('Management')){
                     todo.OwnerId = qMan.id; 

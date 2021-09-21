@@ -8,47 +8,55 @@ import {refreshApex} from "@salesforce/apex";
 
 export default class TodoSearch extends LightningElement {
 
-    nameKey = '';
-    res;
-    @track priorityKey = '';
-    @track optionsForPriority = [];
-    @track startDateKey = '2000-01-01T00:00:00Z';
-    @track endDateKey = '';
+    // nameKey = '';
+    // @track priorityKey = '';
+    // @track optionsForPriority = [];
+    // @track startDateKey = '2000-01-01T00:00:00Z';
+    // @track endDateKey = '';
 
-    @track key = { priorityFKey : this.priorityKey, nameFKey : this.nameKey, startDateFKey : this.startDateKey, endDateFKey : this.endDateKey};
+    @track key = { priorityFKey : '', nameFKey : '', startDateFKey : '2000-01-01T00:00:00Z', endDateFKey : ''};
 
-    getParamForKey(){
-        this.key.priorityFKey = 'High';
-        this.key.nameFKey = '';
-        this.key.startDateFKey = '2030-01-01T00:00:00Z';
-        this.key.endDateFKey = '';
+    @api
+    get key(){
+        return this.key;
+    }
+    set key(value){
+        this.key.priorityFKey = value.priorityFKey;
+        this.key.nameFKey = value.nameFKey;
+        this.key.startDateFKey = value.startDateFKey;
+        this.key.endDateFKey = value.endDateFKey;
     }
 
-    @wire(findTodo, {
-        priorityKey: '$priorityKey',
-        nameKey: '$nameKey',
-        startDateKey: '$startDateKey',
-        endDateKey: '$endDateKey',
-    })
-    todos;
+    // @wire(findTodo, {
+    //     priorityKey: '$priorityKey',
+    //     nameKey: '$nameKey',
+    //     startDateKey: '$startDateKey',
+    //     endDateKey: '$endDateKey',
+    // })
+    // todos;
 
     refresh(){
         refreshApex(this.refresh);
     }
 
     handleChange(event) {
-        window.clearTimeout(this.delayTimeout);
         const nameKey = event.target.value;
-        this.delayTimeout = setTimeout(() => {
-            this.nameKey = nameKey;
-        }, 300);
-        this.refresh();
+        const eventDetail = new CustomEvent('getname',{
+                detail:{
+                    // nameKey : this.key.nameFKey;
+                }
+            });
+        // window.clearTimeout(this.delayTimeout);
+        // const nameKey = event.target.value;
+        // this.delayTimeout = setTimeout(() => {
+        //     this.key.nameFKey = nameKey;
+        // }, 300);
+        // this.refresh();
     }
 
     connectedCallback(){
         const today = new Date();
-        this.endDateKey=today.toISOString();
-        this.getParamForKey();
+        this.key.endDateFKey=today.toISOString();
         console.log(today.toISOString());
     }
 
@@ -61,21 +69,22 @@ export default class TodoSearch extends LightningElement {
 
     handleClick(){
         const today = new Date();
-        this.endDateKey=today.toISOString();
+        this.key.endDateFKey=today.toISOString();
         console.log(today.toISOString())
-        this.startDateKey = '2000-01-01T00:00:00Z';
+        this.key.startDateFKey = '2000-01-01T00:00:00Z';
         this.refresh();
     }
 
 
     handleChangeDate(event) {
+        this.dispatchEvent(new CustomEvent('getdate'));
         window.clearTimeout(this.delayTimeout);
         const endDateKey = event.target.value;
-        this.startDateKey = setTimeout(() => {
-            this.startDateKey = endDateKey + 'T00:00:00Z';
+        this.key.startDateFKey = setTimeout(() => {
+            this.key.startDateFKey = endDateKey + 'T00:00:00Z';
         }, 300);
-        this.endDateKey = setTimeout(() => {
-            this.endDateKey = endDateKey + 'T23:59:59Z';
+        this.key.endDateFKey = setTimeout(() => {
+            this.key.endDateFKey = endDateKey + 'T23:59:59Z';
         }, 300);
         this.refresh();
     }
@@ -106,10 +115,11 @@ export default class TodoSearch extends LightningElement {
     }
 
     handleChangePriority(event) {
+        this.dispatchEvent(new CustomEvent('getpriority'));
         window.clearTimeout(this.delayTimeout);
         const priorityKey = event.target.value;
         this.delayTimeout = setTimeout(() => {
-            this.priorityKey = priorityKey;
+            this.key.priorityFKey = priorityKey;
         }, 300);
         this.refresh();
     }

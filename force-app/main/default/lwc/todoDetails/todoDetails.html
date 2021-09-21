@@ -2,7 +2,8 @@
     <lightning-card>
         <lightning-layout vertical-align="center" 
         class="slds-box slds-var-m-around_small">
-        <template if:true={todo}>
+        <template if:false={isTodoEmpty}>
+            <p> {todo.Name} </p>
             <lightning-layout-item>   
                 <lightning-record-view-form record-id={todo.Id} object-api-name="Todo__c">
                     <img src={todo.Image_URL__c}>
@@ -23,18 +24,14 @@
                     <lightning-output-field field-name="Connected_Org_Record_Id__c">
                     </lightning-output-field>
                 </lightning-record-view-form>
-                <lightning-layout-item>
-                    <lightning-button onclick={openSubtodosModal} variant="brand" label="Check subtodos">
-                    </lightning-button>
-                </lightning-layout-item>
-
+                
                 <lightning-card>
-                    <template if:true={subtodos}>
+                    <template if:false={isSubTodosEmpty}>
                         <template for:each={subtodos} for:item="subtodo">
-                            
+                            dwdwdwd
                         </template>
                     </template>
-                    <template if:false={subtodos}> <!-- or get function XD -->
+                    <template if:true={isSubTodosEmpty}> 
                         <p> There is NOOO SUBTOOODOOOS</p>
                     </template>
 
@@ -42,7 +39,7 @@
                 <!--add subtodo list lwc -->
             </lightning-layout-item>
         </template>
-        <template if:false={todo}>
+        <template if:true={isTodoEmpty}>
             <lightning-layout-item>
                 Select Todo in list component
             </lightning-layout-item>
