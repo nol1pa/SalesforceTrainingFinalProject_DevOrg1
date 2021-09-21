@@ -10,7 +10,12 @@ export default class TodoSearch extends LightningElement {
 
     nameKey = '';
     priorityKey = '';
-    optionsForPriority = [];
+    optionsForPriority = [
+        {value: '', label: 'All'},
+        {value: 'High', label: 'High'},
+        {value: 'Medium', label: 'Medium'},
+        {value: 'Low', label: 'Low'},
+    ];
     startDateKey = '';
     endDateKey = '';
 
@@ -26,8 +31,9 @@ export default class TodoSearch extends LightningElement {
 
     handleDateKeyChange(event){
         //this.startDateKey = event.target.value.toISOString() + 'T00:00:00';
-        const endDateKey = event.target.value.toISOString();
-        this.endDateKey = endDateKey + 'T23:59:59';
+        const endDateKey = event.target.value;
+        this.startDateKey = endDateKey + 'T00:00:00Z';
+        this.endDateKey = endDateKey + 'T23:59:59Z';
         this.sendKeyChangeEvent();
     }
 
@@ -36,7 +42,7 @@ export default class TodoSearch extends LightningElement {
             detail: {
                 nameKey: this.nameKey,
                 priorityKey : this.priorityKey,
-                //startDateKey: this.startDateKey,
+                startDateKey: this.startDateKey,
                 endDateKey: this.endDateKey
             }
         }));
@@ -71,12 +77,12 @@ export default class TodoSearch extends LightningElement {
     //     refreshApex(this.refresh);
     // }
     //
-    connectedCallback(){
-        const today = new Date();
-        this.startDateKey = '2000-01-01T00:00:00Z'
-        this.endDateKey=today.toISOString();
-        console.log(today.toISOString());
-    }
+    // connectedCallback(){
+    //     const today = new Date();
+    //     this.startDateKey = '2000-01-01T00:00:00Z'
+    //     this.endDateKey=today.toISOString();
+    //     console.log(today.toISOString());
+    //}
     //
     // handleChange(event) {
     //     const lwcEvent3 = new CustomEvent('eventname', {
@@ -127,29 +133,29 @@ export default class TodoSearch extends LightningElement {
     // }
 
 
-    @wire(getObjectInfo, {objectApiName: TODO_OBJECT})
-    objectInfo;
-
-    @wire(getPicklistValues, {fieldApiName: Priority_FIELD, recordTypeId: '$objectInfo.data.defaultRecordTypeId'})
-    typePicklistValuesPriority({error, data}) {
-        if (data) {
-            let optionsValues = [];
-            for (let i = 0; i < data.values.length; i++) {
-                optionsValues.push({
-                    label: data.values[i].label,
-                    value: data.values[i].value
-                })
-            }
-            optionsValues.push({
-                label: 'All',
-                value: ''
-            })
-            this.optionsForPriority = optionsValues;
-            window.console.log('optionsValues ===> ' + JSON.stringify(optionsValues));
-        } else if (error) {
-            window.console.log('error ===> ' + JSON.stringify(error));
-        }
-    }
+    // @wire(getObjectInfo, {objectApiName: TODO_OBJECT})
+    // objectInfo;
+    //
+    // @wire(getPicklistValues, {fieldApiName: Priority_FIELD, recordTypeId: '$objectInfo.data.defaultRecordTypeId'})
+    // typePicklistValuesPriority({error, data}) {
+    //     if (data) {
+    //         let optionsValues = [];
+    //         for (let i = 0; i < data.values.length; i++) {
+    //             optionsValues.push({
+    //                 label: data.values[i].label,
+    //                 value: data.values[i].value
+    //             })
+    //         }
+    //         optionsValues.push({
+    //             label: 'All',
+    //             value: ''
+    //         })
+    //         this.optionsForPriority = optionsValues;
+    //         window.console.log('optionsValues ===> ' + JSON.stringify(optionsValues));
+    //     } else if (error) {
+    //         window.console.log('error ===> ' + JSON.stringify(error));
+    //     }
+    // }
     //
     // handleChangePriority(event) {
     //     const lwcEvent1 = new CustomEvent('eventpriority', {

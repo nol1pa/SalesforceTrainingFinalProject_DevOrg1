@@ -25,12 +25,14 @@ export default class TodoListSandbox extends LightningElement {
     handleKeyChange(event){
         console.log(event.detail.nameKey);
         console.log(event.detail.priorityKey);
-        console.log(event.detail.startDateKey + 'start');
-        console.log(event.detail.endDateKey + 'end');
+        console.log(event.detail.startDateKey + ' start');
+        console.log(event.detail.endDateKey + ' end');
         this.nameKey = event.detail.nameKey;
         this.priorityKey = event.detail.priorityKey;
-        this.startDateKey = event.value.endDateKey.toISOString() + 'T00:00:00';
-        this.endDateKey = event.detail.endDateKey.toISOString() + 'T23:59:59';
+        this.startDateKey = event.detail.startDateKey;
+        this.endDateKey = event.detail.endDateKey;
+        console.log(event.detail.endDateKey + 'end');
+        console.log(event.detail.startDateKey + 'start');
     }
 
 
@@ -58,7 +60,6 @@ export default class TodoListSandbox extends LightningElement {
     }
 
     renderedCallback(){
-        this.startDateKey = '2000-01-01T00:00:00Z';
         this.refresh();
     }
     refresh(){
