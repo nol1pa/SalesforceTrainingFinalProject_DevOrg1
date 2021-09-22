@@ -20,7 +20,8 @@ export default class TodoSearch extends LightningElement {
     endDateKey = '';
 
     handlePriorityChange(event){
-        this.priorityKey = event.target.value;
+        const priority = event.target.value
+        this.priorityKey = priority;
         this.sendKeyChangeEvent();
     }
 
@@ -44,6 +45,18 @@ export default class TodoSearch extends LightningElement {
                 priorityKey : this.priorityKey,
                 startDateKey: this.startDateKey,
                 endDateKey: this.endDateKey
+            }
+        }));
+    }
+
+    handleClick(){
+        const today = new Date();
+        this.dispatchEvent(new CustomEvent('resetdate', {
+            detail: {
+                nameKey: '',
+                priorityKey: '',
+                startDateKey: '2000-01-01T00:00:00Z',
+                endDateKey: today.toISOString()
             }
         }));
     }
@@ -77,12 +90,20 @@ export default class TodoSearch extends LightningElement {
     //     refreshApex(this.refresh);
     // }
     //
-    // connectedCallback(){
+    connectedCallback(){
+        const today = new Date();
+        this.startDateKey = '2000-01-01T00:00:00Z'
+        this.endDateKey=today.toISOString();
+        this.priorityKey = '';
+        console.log(today.toISOString());
+    }
+    // renderedCallback() {
     //     const today = new Date();
     //     this.startDateKey = '2000-01-01T00:00:00Z'
     //     this.endDateKey=today.toISOString();
     //     console.log(today.toISOString());
-    //}
+    // }
+
     //
     // handleChange(event) {
     //     const lwcEvent3 = new CustomEvent('eventname', {

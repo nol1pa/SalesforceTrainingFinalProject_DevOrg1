@@ -12,6 +12,7 @@ public with sharing class ToDoHandler {
                 FROM ToDo__c
                 ORDER BY CreatedDate
         ];
+        // return new List<ToDo__c>();
     }
     @AuraEnabled(Cacheable=true)
     public static List<ToDo__c> findTodosWithSubTodos(String priorityKey, String nameKey, Datetime startDateKey, Datetime endDateKey) {
@@ -36,6 +37,8 @@ public with sharing class ToDoHandler {
                       CreatedDate <= :keyForEndDate
                 ORDER BY CreatedDate
         ];
+        // return new List<ToDo__c>();
+
         //return Database.query(getQuery);
     }
 
@@ -48,6 +51,7 @@ public with sharing class ToDoHandler {
                 WHERE Id =: todoId 
                 limit 1
         ];
+        // return new ToDo__c();
     }
 
 
@@ -56,13 +60,15 @@ public with sharing class ToDoHandler {
     public static ToDo__c updateTodoWithSubTodos(
             ToDo__c todo, List<SubToDo__c> subtodos
     ) {
-        update todo;
-        update subtodos;
-        return todo;
+        // update todo;
+        // update subtodos;
+        // return todo;
+        return new ToDo__c();
     }
     @AuraEnabled
     public static ToDo__c updateTodo(ToDo__c todo) {
-        update todo;
-        return todo;
+        // update todo;
+        // return todo;
+        return new ToDo__c();
     }
 }

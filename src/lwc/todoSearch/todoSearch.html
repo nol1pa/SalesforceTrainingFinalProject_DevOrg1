@@ -9,7 +9,7 @@
                 <div style="margin-left:3%; margin-right:3%;">
                     <lightning-radio-group name="radioGroupForPriorityStatus"
                                            label="Choose priority"
-                                           onchange={handleNameKeyChange}
+                                           onchange={handlePriorityChange}
                                            options={optionsForPriority}
                                            value={priorityKey}
                                            type="button"></lightning-radio-group>
@@ -26,7 +26,7 @@
                                          onchange={handleDateKeyChange}
                                          value={endDateKey}></lightning-input>
                         </br>
-                        <lightning-button label="Clear date" title="Non-primary action" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+                        <lightning-button label="Clear search" title="Non-primary action" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
                         Selected Value: <b>{endDateKey}</b>
                     </div>
         </template>
