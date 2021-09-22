@@ -4,9 +4,7 @@ public class ToDoTriggerTest {
     public static void testBeforeUpdate() {
         ToDo__c[] todos = new List<ToDo__c>();
         for(Integer i = 0; i < 10; i++){
-            todos.add(
-                TestDataFactory.TODO.createDummyTodo('Todo' + i, '0125g000001qnSTAAY', false)
-            );
+            todos.add(new ToDo__c(Name = 'Todo' + i));
         }
         for(Integer i = 0; i < todos.size(); i++){
             todos.get(i).Connected_Org_Record_Id__c = 'SomeString' + i;
@@ -25,14 +23,22 @@ public class ToDoTriggerTest {
     }
     @isTest
     public static void testAfterInsertFuture(){
-        StaticResourceCalloutMock mock = new StaticResourceCalloutMock();
-        mock.setStaticResource('TodosResource');
-        mock.setStatusCode(200);
-        mock.setHeader('Content-Type', 'application/json;charset=UTF-8');
-        Test.setMock(HttpCalloutMock.class, mock);
+        ToDo__c[] todos = new List<ToDo__c>();
+        for(Integer i = 0; i < 5; i++){
+            todos.add(
+                new ToDo__c(Name = 'Todo' + i, RecordTypeId = '0125g000001qnSTAAY')
+            );
+        }
+        insert todos;
+        Map<Id, ToDo__c> todoMap = new Map<Id, ToDo__c>([SELECT Id FROM ToDo__c]);
+        Test.setMock(HttpCalloutMock.class, new TodoHttpMock());
         Test.startTest();
-        ToDoTriggerHandlerHelper.handleAfterInsert_future(new Set<Id>());
+        ToDoTriggerHandlerHelper.handleAfterInsert_future(todoMap.keySet());
         Test.stopTest();
+        ToDo__c[] newTodos = [SELECT Id, Connected_Org_Record_Id__c FROM ToDo__c];
+        for(ToDo__c todo : newTodos){
+            System.assertEquals(todo.Id, todo.Connected_Org_Record_Id__c);
+        }
     }
     @isTest
     public static void testAfterUpdateFuture(){

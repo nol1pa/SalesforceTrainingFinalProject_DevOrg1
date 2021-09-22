@@ -54,13 +54,11 @@ public with sharing class ToDoTriggerHandlerHelper {
         HttpResponse resp = http.send(req);
         List<ToDo__c> syncedTodos =
                 (List<ToDo__c>) JSON.deserialize(resp.getBody(), List<ToDo__c>.class);
-        System.debug(todosMap.values());
-        System.debug(syncedTodos);
         for (ToDo__c todo : syncedTodos) {
-            todosMap.get(todo.Connected_Org_Record_Id__c).
+                System.debug(todo);
+                todosMap.get(todo.Connected_Org_Record_Id__c).
                     Connected_Org_Record_Id__c = todo.Id;
         }
-        System.debug(todosMap.values());
         update todosMap.values();
     }
     @future(callout = true)

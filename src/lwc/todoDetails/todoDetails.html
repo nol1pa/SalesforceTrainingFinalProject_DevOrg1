@@ -10,10 +10,10 @@
                                 <lightning-input type="text" label="Todos name" value={todo.Name} readonly></lightning-input>
                             </div>
                             <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom_medium">
-                                <img src={todo.Image_URL__c} alt="[no image on todo]">
+                                <img src={todo.Image_URL__c} width="20" height="30" alt="[no image on todo]">
                             </div>
                             <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom_medium">
-                                <lightning-input type="toggle" label="Is done" value={todo.Is_Done__c} checked disabled></lightning-input>
+                                <lightning-input type="checkbox" label="Is done" checked={todo.Is_Done__c} disabled></lightning-input>
                             </div>
                             <div class="slds-col slds-size_6-of-12 slds-p-horizontal--medium slds-m-bottom_medium">
                                 <lightning-input type="text" label="Priority" value={todo.Priority__c} readonly></lightning-input>
@@ -46,7 +46,7 @@
                                                            <lightning-input type="text" label="Subtodos name" value={subtodo.Name} readonly></lightning-input>
                                                         </div>
                                                         <div class="slds-col slds-size_4-of-12 slds-p-horizontal--medium slds-m-bottom_x-small">
-                                                            <lightning-input type="toggle" label="Is done" value={subtodo.Is_Done__c} checked disabled></lightning-input>
+                                                            <lightning-input type="checkbox" label="Is done" checked={subtodo.Is_Done__c} disabled></lightning-input>
                                                         </div>
                                                         <div class="slds-col slds-size_4-of-12 slds-p-horizontal--medium slds-m-bottom_x-small">
                                                             <lightning-input type="text" label="Priority" value={subtodo.Priority__c} readonly></lightning-input>

@@ -16,7 +16,7 @@ public with sharing class ToDoDeleteBatch implements Database.Batchable<sObject>
                 //lifetime = quantity * 12L * 30L * 24L * 60L * 60L * 1000L;
             }
             when 'month'{
-                lifetime = nowTime.addMonths(-quantity);
+                lifetime = nowTime.addMonths(quantity);
                 //lifetime = quantity * 30L * 24L * 60L * 60L * 1000L;
             }
             when 'day'{
