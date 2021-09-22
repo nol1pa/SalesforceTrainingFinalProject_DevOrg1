@@ -15,7 +15,6 @@ public with sharing class ToDoHandler {
     }
     @AuraEnabled(Cacheable=true)
     public static List<ToDo__c> findTodosWithSubTodos(String priorityKey, String nameKey, Datetime startDateKey, Datetime endDateKey) {
-        //String getQuery = query;
         String keyForPriority = '%' + priorityKey + '%';
         Datetime keyForStartDate = startDateKey;
         Datetime keyForEndDate = endDateKey;
@@ -36,14 +35,13 @@ public with sharing class ToDoHandler {
                       CreatedDate <= :keyForEndDate
                 ORDER BY CreatedDate
         ];
-        //return Database.query(getQuery);
     }
 
     @AuraEnabled(Cacheable=true)
     public static ToDo__c getTodoById(String todoId) {
         return [
                 SELECT Name, Description__c, Priority__c, Connected_Org_Record_Id__c,
-                        Image_URL__c, Is_Done__c, CreatedDate, RecordTypeId
+                        Image_URL__c, Is_Done__c, CreatedDate, RecordTypeId, RecordType.Name, Owner.Name
                 FROM ToDo__c
                 WHERE Id =: todoId 
                 limit 1

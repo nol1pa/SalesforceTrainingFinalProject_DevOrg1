@@ -22,8 +22,6 @@ export default class TodoList extends LightningElement {
         }
     }
     handleKeyChange(event){
-        console.log(event.detail.nameKey);
-        console.log(event.detail.priorityKey);
         this.nameKey = event.detail.nameKey;
         this.priorityKey = event.detail.priorityKey;
     }

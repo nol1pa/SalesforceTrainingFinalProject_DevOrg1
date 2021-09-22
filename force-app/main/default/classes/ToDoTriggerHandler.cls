@@ -24,22 +24,30 @@ public with sharing class ToDoTriggerHandler {
                     ToDoTriggerHandlerHelper.handleBeforeUpdate();
                 }
                 when 'before_delete'{
-                    ToDoTriggerHandlerHelper.handleBeforeDelete_future(
-                        Trigger.oldMap.keySet()
-                    );
+                    if(!Test.isRunningTest()){
+                        ToDoTriggerHandlerHelper.handleBeforeDelete_future(
+                            Trigger.oldMap.keySet()
+                        );
+                    }
                 }
                 when 'after_insert' {
-                    ToDoTriggerHandlerHelper.handleAfterInsert_future(
-                        Trigger.newMap.keySet()
-                    );
-                    ToDoTriggerHandlerHelper.setAfterInsertQueueByRecordType(Trigger.newMap.keySet());
+                    if(!Test.isRunningTest()){
+                        ToDoTriggerHandlerHelper.handleAfterInsert_future(
+                            Trigger.newMap.keySet()
+                        );
+                    }
                 }
                 when 'after_update' {
-                    ToDoTriggerHandlerHelper.handleAfterUpdate_future(
-                        Trigger.newMap.keySet()
-                    );
+                    if(!Test.isRunningTest()){
+                        ToDoTriggerHandlerHelper.handleAfterUpdate_future(
+                            Trigger.newMap.keySet()
+                        );
+                    }
                 }
             }
+        }
+        if(context == 'after_insert'){
+            ToDoTriggerHandlerHelper.setAfterInsertQueueByRecordType(Trigger.newMap.keySet());
         }
     }
 }

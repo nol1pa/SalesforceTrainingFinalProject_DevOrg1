@@ -17,7 +17,7 @@
                     </lightning-input>
                 </lightning-layout-item>
             </lightning-layout>
-            <c-todo-search oneventname={handlename} oneventpriority={handlepriority} oneventdate={handledate} oneventclick={clickforclear}></c-todo-search>
+            <c-todo-search onkeychange={handleKeyChange} onresetdate={handleResetDate}></c-todo-search>
             <div class="slds-scrollable" style="height:20rem">
                 <template if:true={todos}>
                     <template for:each={todos} for:item="todo">

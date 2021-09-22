@@ -146,8 +146,10 @@ export default class TodoListItem extends LightningElement {
             const allDone = this._todo.SubToDos__r.reduce((acc, curr)=>{
                 return acc && curr.Is_Done__c;
             },true);
-            this._todo.Is_Done__c = allDone;
-            updateTodo({todo : this._todo});
+            if(this._todo.Is_Done__c != allDone){
+                this._todo.Is_Done__c = allDone;
+                updateTodo({todo : this._todo});
+            }
         }
         
     }
