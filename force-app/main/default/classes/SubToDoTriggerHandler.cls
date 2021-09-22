@@ -3,19 +3,19 @@ public with sharing class SubToDoTriggerHandler {
     
     public static void handleBeforeDelete(Map<Id,SubToDo__c> oldSubToDoMap){
         if(!System.isFuture()){
-            SubToDoTriggerHandlerHelper.handleBeforeDelete_future(oldSubToDoMap.keySet());
+        //    SubToDoTriggerHandlerHelper.handleBeforeDelete_future(oldSubToDoMap.keySet());
         }
     }
 
     public static void handleAfterInsert(Map<Id,SubToDo__c> newSubToDoMap) {
         if(!System.isFuture()){ 
-             SubToDoTriggerHandlerHelper.handleAfterInsert_future(newSubToDoMap.keySet());
+         //    SubToDoTriggerHandlerHelper.handleAfterInsert_future(newSubToDoMap.keySet());
         }
     }
 
     public static void handleAfterUpdate(Map<Id,SubToDo__c> newSubToDoMap) {
         if(!System.isFuture()){ 
-            SubToDoTriggerHandlerHelper.handleAfterUpdate_future(newSubToDoMap.keySet());
+         //   SubToDoTriggerHandlerHelper.handleAfterUpdate_future(newSubToDoMap.keySet());
         }
     }
 
