@@ -14,8 +14,9 @@ private class ToDoDeleteBatchTest {
         Test.startTest();
         ToDoDeleteBatch tDeleteBatch = new ToDoDeleteBatch();
         Database.executeBatch(tDeleteBatch);
-        ToDo__c expectedTodo = [SELECT Id, IsDeleted FROM ToDo__c WHERE Id = :todo.Id];
-        System.assertEquals(expectedTodo.IsDeleted, true);
         Test.stopTest();
+
+        ToDo__c expectedTodo = [SELECT Id, IsDeleted FROM ToDo__c WHERE Id = :todo.Id];
+        System.assertEquals(true, expectedTodo.IsDeleted);
     }
 }
