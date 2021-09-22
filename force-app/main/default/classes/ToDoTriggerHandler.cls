@@ -19,32 +19,32 @@ public with sharing class ToDoTriggerHandler {
     }
     public void handleAction(){
         if(!System.isFuture()){
-            switch on context {
-                when 'before_update' {
-                    ToDoTriggerHandlerHelper.handleBeforeUpdate();
-                }
-                when 'before_delete'{
-                    if(!Test.isRunningTest()){
-                        ToDoTriggerHandlerHelper.handleBeforeDelete_future(
-                            Trigger.oldMap.keySet()
-                        );
+            	switch on context {
+                    when 'before_update' {
+                        ToDoTriggerHandlerHelper.handleBeforeUpdate();
+                    }
+                    when 'before_delete'{
+                       if(!Test.isRunningTest() && false){
+                            ToDoTriggerHandlerHelper.handleBeforeDelete_future(
+                                Trigger.oldMap.keySet()
+                            );
+                       }
+                    }
+                    when 'after_insert' {
+                        if(!Test.isRunningTest() && false){
+                            ToDoTriggerHandlerHelper.handleAfterInsert_future(
+                                    Trigger.newMap.keySet()
+                            );
+                        }
+                    }
+                    when 'after_update' {
+                        if(!Test.isRunningTest() && false){
+                            ToDoTriggerHandlerHelper.handleAfterUpdate_future(
+                                Trigger.newMap.keySet()
+                            );
+                        }
                     }
                 }
-                when 'after_insert' {
-                    if(!Test.isRunningTest()){
-                        ToDoTriggerHandlerHelper.handleAfterInsert_future(
-                            Trigger.newMap.keySet()
-                        );
-                    }
-                }
-                when 'after_update' {
-                    if(!Test.isRunningTest()){
-                        ToDoTriggerHandlerHelper.handleAfterUpdate_future(
-                            Trigger.newMap.keySet()
-                        );
-                    }
-                }
-            }
         }
         if(context == 'after_insert'){
             ToDoTriggerHandlerHelper.setAfterInsertQueueByRecordType(Trigger.newMap.keySet());
