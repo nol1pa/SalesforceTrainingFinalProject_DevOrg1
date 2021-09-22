@@ -14,8 +14,6 @@ export default class TodoDetails extends LightningElement {
     
     @wire(MessageContext)
     messageContext;
-    
-
 
     @wire(getTodo, { todoId: '$selectedTodoId'})
     getTodo(result){

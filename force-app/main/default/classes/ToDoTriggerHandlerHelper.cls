@@ -55,7 +55,7 @@ public with sharing class ToDoTriggerHandlerHelper {
         List<ToDo__c> syncedTodos =
                 (List<ToDo__c>) JSON.deserialize(resp.getBody(), List<ToDo__c>.class);
         for (ToDo__c todo : syncedTodos) {
-            todosMap.get(todo.Connected_Org_Record_Id__c).
+                todosMap.get(todo.Connected_Org_Record_Id__c).
                     Connected_Org_Record_Id__c = todo.Id;
         }
         update todosMap.values();
