@@ -24,21 +24,21 @@ public with sharing class ToDoTriggerHandler {
                         ToDoTriggerHandlerHelper.handleBeforeUpdate();
                     }
                     when 'before_delete'{
-                       if(!Test.isRunningTest() && false){
+                       if(!Test.isRunningTest()){
                             ToDoTriggerHandlerHelper.handleBeforeDelete_future(
                                 Trigger.oldMap.keySet()
                             );
                        }
                     }
                     when 'after_insert' {
-                        if(!Test.isRunningTest() && false){
+                        if(!Test.isRunningTest()){
                             ToDoTriggerHandlerHelper.handleAfterInsert_future(
                                     Trigger.newMap.keySet()
                             );
                         }
                     }
                     when 'after_update' {
-                        if(!Test.isRunningTest() && false){
+                        if(!Test.isRunningTest()){
                             ToDoTriggerHandlerHelper.handleAfterUpdate_future(
                                 Trigger.newMap.keySet()
                             );

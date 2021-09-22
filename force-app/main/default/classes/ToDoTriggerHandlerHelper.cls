@@ -19,9 +19,9 @@ public with sharing class ToDoTriggerHandlerHelper {
                 recTypeIds.put('Administration', Schema.SObjectType.ToDo__c.getRecordTypeInfosByName().get('Administration').getRecordTypeId());
                 recTypeIds.put('Development', Schema.SObjectType.ToDo__c.getRecordTypeInfosByName().get('Development').getRecordTypeId());
                 
-                Group qMan = [SELECT Id FROM Group WHERE Name = 'Managequeue' and Type='Queue'];
-                Group qDev = [SELECT Id FROM Group WHERE Name = 'Devqueue' and Type='Queue'];
-                Group qAdm = [SELECT Id FROM Group WHERE Name = 'Adminqueue' and Type='Queue'];
+                Group qMan = [SELECT Id FROM Group WHERE Name = 'Managequeue' and Type='Queue' LIMIT 1];
+                Group qDev = [SELECT Id FROM Group WHERE Name = 'Devqueue' and Type='Queue' LIMIT 1];
+                Group qAdm = [SELECT Id FROM Group WHERE Name = 'Adminqueue' and Type='Queue' LIMIT 1];
                 for(ToDo__c todo : todos){
                 if(todo.RecordTypeId == recTypeIds.get('Management')){
                         todo.OwnerId = qMan.id; 
@@ -55,7 +55,6 @@ public with sharing class ToDoTriggerHandlerHelper {
         List<ToDo__c> syncedTodos =
                 (List<ToDo__c>) JSON.deserialize(resp.getBody(), List<ToDo__c>.class);
         for (ToDo__c todo : syncedTodos) {
-                System.debug(todo);
                 todosMap.get(todo.Connected_Org_Record_Id__c).
                     Connected_Org_Record_Id__c = todo.Id;
         }
