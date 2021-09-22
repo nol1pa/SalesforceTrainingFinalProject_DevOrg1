@@ -3,7 +3,6 @@ public with sharing class ToDoTriggerHandlerHelper {
                 for(ToDo__c todo : (List<ToDo__c>)Trigger.new){
                         todo.Connected_Org_Record_Id__c = 
                         ((Map<Id, ToDo__C>)Trigger.oldMap).get(todo.Id).Connected_Org_Record_Id__c;
-                        System.debug(todo.Connected_Org_Record_Id__c);
                 }
         }
     

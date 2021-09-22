@@ -51,6 +51,10 @@ export default class TodoSearch extends LightningElement {
 
     handleClick(){
         const today = new Date();
+        this.nameKey = '';
+        this.priorityKey = '';
+        this.startDateKey = '2000-01-01T00:00:00Z';
+        this.endDateKey = today.toISOString();
         this.dispatchEvent(new CustomEvent('resetdate', {
             detail: {
                 nameKey: '',

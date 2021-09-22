@@ -60,15 +60,15 @@ public with sharing class ToDoHandler {
     public static ToDo__c updateTodoWithSubTodos(
             ToDo__c todo, List<SubToDo__c> subtodos
     ) {
-        // update todo;
-        // update subtodos;
-        // return todo;
-        return new ToDo__c();
+        update todo;
+        update subtodos;
+        return todo;
+        // return new ToDo__c();
     }
     @AuraEnabled
     public static ToDo__c updateTodo(ToDo__c todo) {
-        // update todo;
-        // return todo;
-        return new ToDo__c();
+        update todo;
+        return todo;
+        // return new ToDo__c();
     }
 }
