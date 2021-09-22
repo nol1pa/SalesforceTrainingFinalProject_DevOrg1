@@ -12,15 +12,21 @@
                     <lightning-button-icon onclick={refresh} icon-name="utility:refresh" alternative-text="Refresh" title="Refresh">
                     </lightning-button-icon>
                 </lightning-layout-item>
+                <lightning-layout-item class="slds-var-m-right_xx-small slds-var-m-left_x-small">
+                    <lightning-input type="toggle" name="input1" label="Search Tools" onchange={handleShowSearchTools} value={showsearchtools} message-toggle-active="Show" message-toggle-inactive="Don't Show">
+                    </lightning-input>
+                </lightning-layout-item>
                 <lightning-layout-item alignment-bump="left">
                     <lightning-input type="toggle" name="input1" label="SubToDos" onchange={handleShowSubtodos} value={showsubtodos} message-toggle-active="Show" message-toggle-inactive="Don't Show">
                     </lightning-input>
                 </lightning-layout-item>
             </lightning-layout>
-            <div>
-                <c-todo-search-another onkeychange={handleKeyChange}>
-                </c-todo-search-another>
+            <template if:true={showsearchtools}>
+            <div class="slds-var-m-bottom_x-small">
+                <c-todo-search onkeychange={handleKeyChange} onresetdate={handleResetData}>
+                </c-todo-search>
             </div>
+            </template>
             <div class="slds-scrollable" style="height:20rem">
                 <template if:true={todos}>
                     <template for:each={todos} for:item="todo">
