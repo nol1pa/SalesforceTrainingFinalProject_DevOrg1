@@ -13,7 +13,9 @@ private class CaseTriggerHelperTest {
         cases.add(caseObj);
 
         Test.startTest();
-        //Test.setMock(HttpCalloutMock.class, new add());
+        Test.setMock(HttpCalloutMock.class, new ToDoTriggerHandlerHelper());
+        caseObj.Subject = 'Test todo, dEVelopment';
+        update caseObj;
         CaseTriggerHelper.addToDoFromEmail(cases);
         Test.stopTest();
 
