@@ -9,27 +9,32 @@ public with sharing class ToDoDeleteBatch implements Database.Batchable<sObject>
         Integer quantity = Integer.valueOf(lifetimes.get(0).Quantity__c);
         String unitOfTime = lifetimes.get(0).Unit_of_time__c;
         Datetime nowTime = Datetime.now();
-        Long lifetime = 0L;
+        Datetime lifetime;
         switch on unitOfTime.toLowerCase(){
             when 'year'{
-                lifetime = quantity * 12L * 30L * 24L * 60L * 60L * 1000L;
+                lifetime = nowTime.addYears(-quantity);
+                //lifetime = quantity * 12L * 30L * 24L * 60L * 60L * 1000L;
             }
             when 'month'{
-                lifetime = quantity * 30L * 24L * 60L * 60L * 1000L;
+                lifetime = nowTime.addMonths(-quantity);
+                //lifetime = quantity * 30L * 24L * 60L * 60L * 1000L;
             }
             when 'day'{
-                lifetime = quantity * 24L * 60L * 60L * 1000L;
+                lifetime = nowTime.addDays(-quantity);
+                //lifetime = quantity * 24L * 60L * 60L * 1000L;
             }
             when 'hour'{
-                lifetime = quantity * 60L * 60L * 1000L;
+                lifetime = nowTime.addHours(-quantity);
+//                lifetime = quantity * 60L * 60L * 1000L;
             }
             when 'minute'{
-                lifetime = quantity * 60L * 1000L;
+                lifetime = nowTime.addMinutes(-quantity);
+                //lifetime = quantity * 60L * 1000L;
             }
         }
-        Long diffTimeInMilliseconds = nowTime.getTime() - lifetime;
-        Datetime diffTime = Datetime.newInstance(diffTimeInMilliseconds);
-        return Database.getQueryLocator('SELECT Id, CreatedDate FROM ToDo__c WHERE CreatedDate < :diffTime');
+        //Long diffTimeInMilliseconds = nowTime.getTime() - lifetime;
+        //Datetime diffTime = Datetime.newInstance(diffTimeInMilliseconds);
+        return Database.getQueryLocator('SELECT Id, CreatedDate FROM ToDo__c WHERE CreatedDate < :lifetime');
     }
 
     public void execute(Database.BatchableContext batchableContext, List<ToDo__c> todos){
