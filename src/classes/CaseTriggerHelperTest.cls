@@ -4,7 +4,7 @@
 
 @IsTest
 private class CaseTriggerHelperTest {
-    @IsTest(SeeAllData=true)
+    @IsTest
     static void addToDoFromEmailTest() {
         List<Case> cases = new List<Case>();
         Case caseObj = TestDataFactory.CASEOBJ.createDummyCase('Test todo, dEVelopment', 'Test subtodo', 'Email', '0055g00000CxaO8AAJ', true);

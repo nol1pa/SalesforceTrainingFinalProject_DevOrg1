@@ -20,11 +20,10 @@ public class TestDataFactory {
     }
 
     public class TestTodoFactory{
-        public ToDo__c createDummyTodo(String name, Id recordTypeId, Id ownerId, Boolean needInsert){
+        public ToDo__c createDummyTodo(String name, Id recordTypeId, Boolean needInsert){
             ToDo__c todo = new ToDo__c();
             todo.Name = name;
             todo.RecordTypeId = recordTypeId;
-            todo.OwnerId = ownerId;
             if(needInsert) insert todo;
             return todo;
         }
