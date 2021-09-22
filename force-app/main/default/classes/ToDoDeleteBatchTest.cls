@@ -9,13 +9,12 @@ private class ToDoDeleteBatchTest {
         ToDo__c todo = TestDataFactory.TODO.createDummyTodo('Test todo', '0125g000001qnSTAAY', 'Low', false);
 
         insert todo;
-        System.debug(todo);
 
         todo = [
-                select CreatedDate,
+                SELECT CreatedDate,
                         Name
-                from ToDo__c
-                where Id = :todo.Id
+                FROM ToDo__c
+                WHERE Id = :todo.Id
         ];
 
         System.debug(todo);
@@ -27,15 +26,11 @@ private class ToDoDeleteBatchTest {
         Test.setCreatedDate(todo.Id, yesterday);
 
         todo = [
-                select CreatedDate,
+                SELECT CreatedDate,
                         Name
-                from ToDo__c
-                where Id = :todo.Id
+                FROM ToDo__c
+                WHERE Id = :todo.Id
         ];
-
-        System.debug('newT: ' + todo);
-
-        system.debug(todo.CreatedDate + ' expected');
 
         StaticResourceCalloutMock mock = new StaticResourceCalloutMock();
         mock.setStaticResource('TodosResource');
@@ -46,11 +41,9 @@ private class ToDoDeleteBatchTest {
         Test.startTest();
         ToDoDeleteBatch tDeleteBatch = new ToDoDeleteBatch();
         Database.executeBatch(tDeleteBatch);
-//        List<ToDo__c> expectedTodo = [SELECT Id, IsDeleted FROM ToDo__c WHERE Id = :todo.Id];
-//        System.assertEquals(true, expectedTodo.get(0).IsDeleted);
         Test.stopTest();
 
-        List<ToDo__c> expectedTodo = [SELECT Id, IsDeleted FROM ToDo__c WHERE Id = :todo.Id];
-        System.assertEquals(true, expectedTodo.get(0).IsDeleted);
+        ToDo__c expectedTodo = [SELECT Id, IsDeleted FROM ToDo__c WHERE Id = :todo.Id ALL ROWS];
+        System.assertEquals(true, expectedTodo.IsDeleted);
     }
 }

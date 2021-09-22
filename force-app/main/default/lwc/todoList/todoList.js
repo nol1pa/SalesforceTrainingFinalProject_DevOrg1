@@ -5,14 +5,18 @@ import {refreshApex} from '@salesforce/apex';
 import findTodosWithSubTodos from '@salesforce/apex/ToDoHandler.findTodosWithSubTodos';//
 
 export default class TodoList extends LightningElement {
-    
+    showsearchtools = false;
+
     priorityKey='';
     nameKey='';
+    startDateKey = '';
+    endDateKey = '';
+
     @wire(findTodosWithSubTodos,{
         priorityKey:'$priorityKey',
         nameKey:'$nameKey',
-        startDateKey:'2000-01-01T00:00:00Z',
-        endDateKey:'2021-09-21T00:00:00Z'
+        startDateKey:'$startDateKey',
+        endDateKey:'$endDateKey'
     })
     getTodos(result){
         this.res = result;
@@ -21,10 +25,28 @@ export default class TodoList extends LightningElement {
             this.countProgress();
         }
     }
+
+    handleShowSearchTools(){
+        this.showsearchtools = !this.showsearchtools;
+    }
     handleKeyChange(event){
         this.nameKey = event.detail.nameKey;
         this.priorityKey = event.detail.priorityKey;
+        this.startDateKey = event.detail.startDateKey;
+        this.endDateKey = event.detail.endDateKey;
     }
+    handleResetData(event){
+        this.nameKey = event.detail.nameKey;
+        this.priorityKey = event.detail.priorityKey;
+        this.startDateKey = event.detail.startDateKey;
+        this.endDateKey = event.detail.endDateKey;
+    }
+    connectedCallback() {
+        this.startDateKey = '2000-01-01T00:00:00Z';
+        const today = new Date();
+        this.endDateKey=today.toISOString();
+    }
+
 
 
     showsubtodos = false;

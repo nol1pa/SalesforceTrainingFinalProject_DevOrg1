@@ -7,7 +7,7 @@ import TODO_SELECTED_CHANNEL from '@salesforce/messageChannel/Todo_Selected__c';
 
 export default class TodoDetails extends LightningElement {
     todo = '';
-    selectedTodoId = '';//получается из message channel
+    selectedTodoId = '';
     subscribtion = null;
     subtodos = '';
 
@@ -17,7 +17,6 @@ export default class TodoDetails extends LightningElement {
 
     @wire(getTodo, { todoId: '$selectedTodoId'})
     getTodo(result){
-        console.log(result.data);
         if(result.data){
             this.todo = result.data;
         }
