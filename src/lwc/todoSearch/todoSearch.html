@@ -1,31 +1,25 @@
 <!-- Todo Search -->
 <template>
-        <div style="margin-left:3%; margin-right:3%;">
+    <div style="margin-left:3%; margin-right:3%;">
         <lightning-input label="Search Todo" type="search" onchange={handleNameKeyChange}></lightning-input>
-        <lightning-input value={nameKey} onchange={handleChangeShow} type="toggle" label="Show additional filters" name="input1"></lightning-input>
-        </div>
-                <div style="margin-left:3%; margin-right:3%;">
-                    <lightning-radio-group name="radioGroupForPriorityStatus"
-                                           label="Choose priority"
-                                           onchange={handlePriorityChange}
-                                           options={optionsForPriority}
-                                           value={priorityKey}
-                                           type="button"></lightning-radio-group>
-                    <div>
-                        Selected Value: <b>{priorityKey}</b>
-                    </div>
-                </div>
-                    </br>
-                    <div style="margin-left:3%;margin-right:3%;">
-                        <h2>Choose Creation Date:</h2>
-                        <lightning-input type="date"
-                                         name="input1"
-                                         label="Enter a date"
-                                         onchange={handleDateKeyChange}
-                                         value={endDateKey}></lightning-input>
-                        </br>
-                        <lightning-button label="Clear search" title="Non-primary action" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
-                        Selected Value: <b>{endDateKey}</b>
-                    </div>
+    </div>
+    <div style="margin-left:3%; margin-right:3%;">
+        <lightning-radio-group name="radioGroupForPriorityStatus"
+                               label="Choose priority"
+                               onchange={handlePriorityChange}
+                               options={optionsForPriority}
+                               value={priorityKey}
+                               type="button"></lightning-radio-group>
+    </div>
+    <div style="margin-left:3%;margin-right:3%;">
+        <lightning-input type="date"
+                         name="input1"
+                         label="Choose date"
+                         onchange={handleDateKeyChange}
+                         value={endDateKey}></lightning-input>
         </br>
+    </div>
+    <div style="margin-left:3%;margin-right:3%;">
+        <lightning-button label="Clear search" title="Non-primary action" onclick={handleClick}></lightning-button>
+    </div>
 </template>
