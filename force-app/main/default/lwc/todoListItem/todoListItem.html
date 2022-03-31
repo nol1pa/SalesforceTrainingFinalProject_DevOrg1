@@ -1,0 +1,152 @@
+<template>
+    <div class="slds-box slds-box_xx-small slds-var-m-bottom_small slds-var-m-right_small">
+            <lightning-layout class="slds-var-m-left_xx-small slds-var-m-top_xx-small">
+                <lightning-layout-item>
+                    <lightning-icon alternative-text="icon" title="icon" size="x-small">
+                    </lightning-icon>
+                </lightning-layout-item>
+                <lightning-layout-item class="slds-var-m-left_xx-small slds-var-m-right_xx-small">
+                    <input type="checkbox" size="large" checked={todo.Is_Done__c}
+                    onchange={handleTodoDoneChange} disabled={isdisabled}/>
+                </lightning-layout-item>
+                <lightning-layout-item>
+                    <a href="#" onclick={selectTodo}>
+                    <b>{todo.Name}</b>
+                    </a>
+                </lightning-layout-item>
+                <lightning-layout-item alignment-bump="left">
+                    <lightning-button-icon icon-name="utility:edit" alternative-text="Edit" size="small" onclick={editTodo} disabled={isdisabled}>
+                    </lightning-button-icon>
+                </lightning-layout-item>
+                <lightning-layout-item class="slds-var-m-left_xx-small">
+                    <lightning-button-icon icon-name="utility:delete" alternative-text="Delete" size="small" onclick={deleteTodo} disabled={isdisabled}>
+                    </lightning-button-icon>
+                </lightning-layout-item>
+            </lightning-layout>
+            <template if:true={showsubtodos}>
+                <template if:true={todo.SubToDos__r}>
+                    <div class="slds-var-m-top_small slds-var-m-left_small slds-has-dividers_top">
+                        <template for:each={todo.SubToDos__r} for:item="subtodo">
+                            <lightning-layout class="slds-item" key={subtodo.Id}>
+                                <lightning-layout-item>
+                                    <input type="checkbox" data-item={subtodo.Id} checked={subtodo.Is_Done__c} value={subtodo.Id} onchange={handleSubTodoDoneChange} 
+                                    disabled={isdisabled} class="slds-var-m-right_xx-small"/>
+                                </lightning-layout-item>
+                                <lightning-layout-item>
+                                    {subtodo.Name}
+                                </lightning-layout-item>
+                                <lightning-layout-item data-item={subtodo.Id} alignment-bump="left">
+                                    <lightning-button-icon data-item={subtodo.Id} icon-name="utility:edit" alternative-text="Edit" size="small" onclick={editSubtodo} disabled={isdisabled}>
+                                    </lightning-button-icon>
+                                </lightning-layout-item>
+                                <lightning-layout-item class="slds-var-m-left_xx-small">
+                                    <lightning-button-icon data-item={subtodo.Id} icon-name="utility:delete" alternative-text="Delete" size="small" onclick={deleteSubtodo} disabled={isdisabled}>
+                                    </lightning-button-icon>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                    </div>
+                </template>
+            </template>
+            <lightning-layout class="slds-var-m-top_xx-small">
+                <lightning-layout-item class="slds-var-m-left_xx-small">
+                    <lightning-button-icon icon-name="utility:add" size="small" alternative-text="Add SubToDo" onclick={createSubtodo} disabled={isdisabled}>
+                    </lightning-button-icon>
+                </lightning-layout-item>
+            </lightning-layout>
+    </div>
+    <!-- MODAL WINDOWS -->
+    <template if:true={todoEditingModalOpened}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+            <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">Edit ToDo</h2>
+            </header>
+            <div class="slds-modal__content slds-var-p-around_medium" id="modal-content-id-1">
+                <lightning-record-edit-form object-api-name="ToDo__c" onsuccess={closeTodoEditingModal} record-id={todo.Id}>
+                    <lightning-messages></lightning-messages>
+                    <lightning-input-field required="true" field-name="Name">
+                    </lightning-input-field>
+                    <lightning-input-field field-name="Priority__c">
+                    </lightning-input-field>
+                    <lightning-input-field field-name="Is_Done__c">
+                    </lightning-input-field>
+                    <lightning-input-field field-name="Image_URL__c">
+                    </lightning-input-field>
+                    <lightning-input-field field-name="Description__c">
+                    </lightning-input-field>
+                    <lightning-button variant="destructive" onclick={closeTodoEditingModal} label="Cancel">
+                    </lightning-button>
+                    <lightning-button class="slds-float_right" type="submit" name="submit" variant="brand" label="Save">
+                    </lightning-button>
+                </lightning-record-edit-form>
+            </div>
+        </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <template if:true={subtodoEditingModalOpened}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+            <h2 id="modal-heading-02" class="slds-modal__title slds-hyphenate">Edit SubToDo</h2>
+            </header>
+            <div class="slds-modal__content slds-var-p-around_medium" id="modal-content-id-2">
+                <lightning-record-edit-form object-api-name="SubToDo__c" onsuccess={closeSubtodoEditingModal} record-id={curSubtodoId}>
+                    <lightning-messages></lightning-messages>
+                    <lightning-input-field required="true" field-name="Name">
+                    </lightning-input-field>
+                    <lightning-input-field disabled="true" field-name="ToDo__c" value={todo.Id}>
+                    </lightning-input-field>
+                    <lightning-input-field field-name="Priority__c">
+                    </lightning-input-field>
+                    <lightning-input-field field-name="Is_Done__c">
+                    </lightning-input-field>
+                    <lightning-input-field field-name="Image_URL__c">
+                    </lightning-input-field>
+                    <lightning-input-field field-name="Description__c">
+                    </lightning-input-field>
+                    <lightning-button variant="destructive" onclick={closeSubtodoEditingModal} label="Cancel">
+                    </lightning-button>
+                    <lightning-button class="slds-float_right" type="submit" name="submit" variant="brand" label="Save">
+                    </lightning-button>
+                </lightning-record-edit-form>
+            </div>
+        </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <template if:true={subtodoCreationModalOpened}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+            <h2 id="modal-heading-03" class="slds-modal__title slds-hyphenate">Add SubToDo</h2>
+            </header>
+            <div class="slds-modal__content slds-var-p-around_medium" id="modal-content-id-3">
+                <lightning-record-edit-form object-api-name="SubToDo__c" onsuccess={closeSubtodoCreationModal}>
+                    <lightning-messages></lightning-messages>
+                    <lightning-input-field required="true" field-name="Name">
+                    </lightning-input-field>
+                    <lightning-input-field disabled="true" field-name="ToDo__c" value={todo.Id}>
+                    </lightning-input-field>
+                    <lightning-input-field field-name="Priority__c">
+                    </lightning-input-field>
+                    <lightning-input-field field-name="Is_Done__c">
+                    </lightning-input-field>
+                    <lightning-input-field field-name="Image_URL__c">
+                    </lightning-input-field>
+                    <lightning-input-field field-name="Description__c">
+                    </lightning-input-field>
+                    <lightning-button variant="destructive" onclick={closeSubtodoCreationModal} label="Cancel">
+                    </lightning-button>
+                    <lightning-button class="slds-float_right" type="submit" name="submit" variant="brand" label="Create SubToDo">
+                    </lightning-button>
+                </lightning-record-edit-form>
+            </div>
+        </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

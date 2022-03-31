@@ -1,0 +1,31 @@
+<!-- Todo Search -->
+<template>
+    <lightning-card class="slds-m-around_medium" title="Search Todos">
+        <div style="margin-left:3%; margin-right:3%;">
+        <lightning-input label="Search Todo" type="search" onchange={handleNameKeyChange}></lightning-input>
+        </div>
+                <div style="margin-left:3%; margin-right:3%;">
+                    <lightning-radio-group name="radioGroupForPriorityStatus"
+                                           label="Choose priority"
+                                           onchange={handlePriorityChange}
+                                           options={optionsForPriority}
+                                           value={priorityKey}
+                                           type="button"></lightning-radio-group>
+                    <div>
+                        Selected Value: <b>{priorityKey}</b>
+                    </div>
+                </div>
+                    </br>
+        </br>
+
+
+        <!---<div class="slds-scrollable" style="height:20rem;margin-left:3%;margin-right:3%;">
+        <template if:true={todos}>
+            <template for:each={todos.data} for:item=todo>
+                <c-todo-list-item key={todo.Id} todo={todo}>
+                </c-todo-list-item>
+            </template>
+        </template>
+        </div>--->
+    </lightning-card>
+</template>
